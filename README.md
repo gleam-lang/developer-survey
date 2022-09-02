@@ -1,24 +1,19 @@
-# survey
-
-[![Package Version](https://img.shields.io/hexpm/v/survey)](https://hex.pm/packages/survey)
-[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/survey/)
-
-A Gleam project
-
-## Quick start
+# Gleam Developer Survey
 
 ```sh
-gleam run   # Run the project
-gleam test  # Run the tests
-gleam shell # Run an Erlang shell
+gleam run # Here we go!
 ```
 
-## Installation
+# API
 
-If available on Hex this package can be added to your Gleam project:
+Save an entry
 
-```sh
-gleam add survey
+```http
+POST http://localhost:3000/entry HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Lucy",
+  "other-fields": "go here"
+}
 ```
-
-and its documentation can be found at <https://hexdocs.pm/survey>.
