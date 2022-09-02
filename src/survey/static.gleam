@@ -5,15 +5,23 @@ import gleam/bit_builder.{BitBuilder}
 import gleam/erlang/file
 import gleam/result
 import gleam/string
+import gleam/list
+import gleam/io
 
 pub fn middleware(service: Service(in, BitBuilder)) -> Service(in, BitBuilder) {
   fn(request: Request(in)) -> Response(BitBuilder) {
+    let request_path = case request.path {
+      "/" -> "/index.html"
+      path -> path
+    }
+
     let path =
-      string.concat([
-        priv_directory(),
-        "/static/",
-        string.replace(in: request.path, each: "..", with: ""),
-      ])
+      request_path
+      |> string.replace(each: "..", with: "")
+      |> string.replace(each: "//", with: "/")
+      |> string.append("/static", _)
+      |> string.append(priv_directory(), _)
+      |> io.debug
 
     let file_contents =
       path
@@ -21,8 +29,26 @@ pub fn middleware(service: Service(in, BitBuilder)) -> Service(in, BitBuilder) {
       |> result.nil_error
       |> result.map(bit_builder.from_bit_string)
 
+    let extension =
+      path
+      |> string.split(on: ".")
+      |> list.last
+      |> result.unwrap("")
+
     case file_contents {
-      Ok(bits) -> Response(200, [], bits)
+      Ok(bits) -> {
+        let content_type = case io.debug(extension) {
+          "html" -> "application/html"
+          "css" -> "text/css"
+          "js" -> "application/javascript"
+          "png" | "jpg" -> "image/jpeg"
+          "gif" -> "image/gif"
+          "svg" -> "image/svg+xml"
+          "ico" -> "image/x-icon"
+          _ -> "octet-stream"
+        }
+        Response(200, [#("content-type", content_type)], bits)
+      }
       Error(_) -> service(request)
     }
   }

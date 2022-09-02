@@ -8,7 +8,6 @@ import survey/static
 
 pub fn router(request: Request(String)) -> Response(String) {
   case request.path_segments(request) {
-    [] -> home()
     _ -> not_found()
   }
 }
@@ -33,17 +32,14 @@ pub fn string_body_middleware(
   }
 }
 
-fn home() -> Response(String) {
-  response.new(200)
-  |> response.set_body("Hello, Joe!")
-}
-
 fn not_found() -> Response(String) {
-  response.new(200)
+  response.new(404)
   |> response.set_body("Page not found")
+  |> response.prepend_header("content-type", "text/plain")
 }
 
 fn bad_request() -> Response(String) {
-  response.new(200)
+  response.new(400)
   |> response.set_body("Bad request. Please try again")
+  |> response.prepend_header("content-type", "text/plain")
 }
