@@ -36,7 +36,7 @@ pub fn middleware(service: Service(in, BitBuilder)) -> Service(in, BitBuilder) {
     case file_contents {
       Ok(bits) -> {
         let content_type = case extension {
-          "html" -> "application/html"
+          "html" -> "text/html"
           "css" -> "text/css"
           "js" -> "application/javascript"
           "png" | "jpg" -> "image/jpeg"

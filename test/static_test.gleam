@@ -28,7 +28,7 @@ pub fn homepage_is_served_test() {
     |> stack()
 
   assert 200 = response.status
-  assert Ok("application/html") = response.get_header(response, "content-type")
+  assert Ok("text/html") = response.get_header(response, "content-type")
 }
 
 pub fn styles_are_served_test() {
