@@ -6,7 +6,6 @@ import gleam/erlang/file
 import gleam/result
 import gleam/string
 import gleam/list
-import gleam/io
 
 pub fn middleware(service: Service(in, BitBuilder)) -> Service(in, BitBuilder) {
   fn(request: Request(in)) -> Response(BitBuilder) {
@@ -21,7 +20,6 @@ pub fn middleware(service: Service(in, BitBuilder)) -> Service(in, BitBuilder) {
       |> string.replace(each: "//", with: "/")
       |> string.append("/static", _)
       |> string.append(priv_directory(), _)
-      |> io.debug
 
     let file_contents =
       path
@@ -37,7 +35,7 @@ pub fn middleware(service: Service(in, BitBuilder)) -> Service(in, BitBuilder) {
 
     case file_contents {
       Ok(bits) -> {
-        let content_type = case io.debug(extension) {
+        let content_type = case extension {
           "html" -> "application/html"
           "css" -> "text/css"
           "js" -> "application/javascript"
