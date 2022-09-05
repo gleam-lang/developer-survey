@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>✨ Gleam Developer Survey ✨</title>
+
+    <script type="module">
+        import * as App from 'app'
+
+        const selector = '#app'
+        const hash = window.location.hash
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Once the DOM has been parsed and laoded, we can replace the
+            // noscript tag with the empty div container that will contain our
+            // app.
+            document.querySelector('noscript').replaceWith(
+                // I saw this `Object.assign` trick on Twitter. So much nicer
+                // than the rubbish imperative DOM API.
+                Object.assign(document.createElement('div'), {
+                    id: 'app'
+                })
+            )
+
+            App.main(selector, hash)
+        })
+    </script>
+</head>
+
+<body>
+    <noscript></noscript>
+</body>
+
+</html>
