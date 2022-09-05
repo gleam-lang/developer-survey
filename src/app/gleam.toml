@@ -1,0 +1,10 @@
+name = "app"
+version = "0.1.0"
+target = "javascript"
+
+[dependencies]
+gleam_stdlib = "~> 0.22"
+lustre = "~> 1.3"
+
+[dev-dependencies]
+gleeunit = "~> 0.6"

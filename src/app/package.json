@@ -1,0 +1,22 @@
+{
+  "type": "module",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^7.3.0",
+    "parcel": "^2.7.0",
+    "process": "^0.11.10"
+  },
+  "scripts": {
+    "build": "npm run clean && gleam build && parcel build src/index.html --dist-dir ../../priv/static --no-source-maps",
+    "clean": "rm -rf build dist .parcel-cache",
+    "start": "gleam build && concurrently --kill-others \"chokidar 'src/**' -c 'gleam build'\" \"parcel src/index.html\""
+  },
+  "alias": {
+    "app": "./build/dev/javascript/app/dist/main.mjs",
+    "ffi": "./src/ffi"
+  }
+}
