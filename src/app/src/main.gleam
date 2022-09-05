@@ -1,6 +1,12 @@
 // IMPORTS ---------------------------------------------------------------------
 
 import app/route.{Route}
+import app/route/complete
+import app/route/info
+import app/route/survey/demographics
+import app/route/survey/features
+import app/route/survey/languages
+import app/route/unknown
 import lustre
 import lustre/attribute
 import lustre/cmd.{Cmd}
@@ -105,11 +111,12 @@ fn render(state: State) -> Element(Action) {
 }
 
 fn render_route(route: Route) -> Element(Action) {
-  element.div(
-    [],
-    [
-      element.text("The current route is: "),
-      element.text(route.to_string(route)),
-    ],
-  )
+  case route {
+    route.Info -> info.render()
+    route.Survey(route.Demographics) -> demographics.render()
+    route.Survey(route.Languages) -> languages.render()
+    route.Survey(route.Features) -> features.render()
+    route.Complete -> complete.render()
+    route.Unknown -> unknown.render()
+  }
 }
