@@ -16,6 +16,14 @@ jobs:
         with:
           otp-version: "23.2"
           gleam-version: "0.23.0-rc1"
-      - run: gleam format --check src test
-      - run: gleam deps download
-      - run: gleam test
+
+      # Check formatting
+      - run: gleam format --check backend/src backend/test
+
+      # Install dependencies
+      - run: cd backend && gleam deps download
+      - run: cd frontend && gleam deps download && npm ci
+
+      # Run tests
+      - run: cd frontend && gleam test
+      - run: cd backend && gleam test
