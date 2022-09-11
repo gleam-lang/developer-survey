@@ -1,19 +1,10 @@
-# Gleam Developer Survey
+# The Gleam Developer Survey
+
+- `backend`: A Gleam server that runs on the Erlang VM.
+- `frontend`: A Gleam SPA that runs in the browser.
 
 ```sh
-gleam run # Here we go!
-```
-
-# API
-
-Save an entry
-
-```http
-POST http://localhost:3000/entry HTTP/1.1
-content-type: application/json
-
-{
-  "name": "Lucy",
-  "other-fields": "go here"
-}
+# Start the frontend
+cd frontend
+npm install
 ```

@@ -1,0 +1,13 @@
+!*/.keep
+build
+
+# Node and NPM bits
+node_modules
+.parcel-cache
+dist
+
+# Editor config
+.vscode
+
+# MacOS bits
+.DS_Store

@@ -11,7 +11,7 @@
     "process": "^0.11.10"
   },
   "scripts": {
-    "build": "npm run clean && gleam build && parcel build src/index.html --dist-dir ../../priv/static --no-source-maps",
+    "build": "npm run clean && gleam build && parcel build src/index.html --dist-dir ../backend/priv/static --no-source-maps",
     "clean": "rm -rf build dist .parcel-cache",
     "start": "gleam build && concurrently --kill-others \"chokidar 'src/**' -c 'gleam build'\" \"parcel src/index.html\""
   },
