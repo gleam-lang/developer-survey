@@ -7,31 +7,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>✨ Gleam Developer Survey ✨</title>
+    <style>
+        @tailwind base;
+        @tailwind components;
+        @tailwind utilities;
+    </style>
 
     <script type="module">
         import * as App from 'app'
 
-        const selector = '#app'
+        const selector = 'body'
         const hash = window.location.hash
 
         window.addEventListener('DOMContentLoaded', () => {
-            // Once the DOM has been parsed and laoded, we can replace the
-            // noscript tag with the empty div container that will contain our
-            // app.
-            document.querySelector('noscript').replaceWith(
-                // I saw this `Object.assign` trick on Twitter. So much nicer
-                // than the rubbish imperative DOM API.
-                Object.assign(document.createElement('div'), {
-                    id: 'app'
-                })
-            )
+            // Once the DOM has been parsed and laoded, we can remove the noscript
+            // tag and show the app. It's not really necessary to remove it but
+            // I enjoy writing pointless code so here we are.
+            document.querySelector('noscript').remove()
 
             App.main(selector, hash)
         })
     </script>
 </head>
 
-<body>
+<body class="bg-gray-50 dark:bg-charcoal font-mono space-y-16 p-8">
     <noscript></noscript>
 </body>
 

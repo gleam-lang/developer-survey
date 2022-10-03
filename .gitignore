@@ -21,4 +21,4 @@ dist
 # `data` is ignored because of the Erlang stuff above, but we want a folder of
 # the same name in the frontend codebase, so we need to create an exception for
 # that
-!src/app/src/app/data
+!app/src/app/data
