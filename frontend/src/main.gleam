@@ -5,7 +5,6 @@ import app/ui/section
 import app/ui/tidbit
 import app/survey/about_you
 import app/survey/gleam
-import app/survey/other_languages
 import gleam/option.{None, Some}
 import lustre
 import lustre/attribute
@@ -36,20 +35,11 @@ pub type Flags {
 }
 
 pub type State {
-  State(
-    about_you: about_you.State,
-    gleam: gleam.State,
-    other_languages: other_languages.State,
-  )
+  State(about_you: about_you.State, gleam: gleam.State)
 }
 
 fn init(_: Flags) -> #(State, Cmd(Action)) {
-  let state =
-    State(
-      about_you: about_you.init(),
-      gleam: gleam.init(),
-      other_languages: other_languages.init(),
-    )
+  let state = State(about_you: about_you.init(), gleam: gleam.init())
 
   #(state, cmd.none())
 }
@@ -59,7 +49,6 @@ fn init(_: Flags) -> #(State, Cmd(Action)) {
 type Action {
   UpdateAboutYou(about_you.Action)
   UpdateGleam(gleam.Action)
-  UpdateOtherLanguages(other_languages.Action)
 }
 
 fn update(state: State, action: Action) -> #(State, Cmd(Action)) {
@@ -72,13 +61,6 @@ fn update(state: State, action: Action) -> #(State, Cmd(Action)) {
     )
     UpdateGleam(action) -> #(
       State(..state, gleam: gleam.update(state.gleam, action)),
-      cmd.none(),
-    )
-    UpdateOtherLanguages(action) -> #(
-      State(
-        ..state,
-        other_languages: other_languages.update(state.other_languages, action),
-      ),
       cmd.none(),
     )
     _ -> noop
@@ -98,21 +80,6 @@ fn render(state: State) -> Element(Action) {
     state.gleam
     |> gleam.render()
     |> element.map(UpdateGleam),
-    {
-      let used = select.selected(state.about_you.langs_used)
-
-      render.when(
-        used != [],
-        fn() {
-          element.fragment([
-            element.hr([]),
-            state.other_languages
-            |> other_languages.render(used)
-            |> element.map(UpdateOtherLanguages),
-          ])
-        },
-      )
-    },
   ])
 }
 
