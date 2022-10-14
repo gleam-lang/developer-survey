@@ -1,14 +1,17 @@
 // IMPORTS ---------------------------------------------------------------------
 
+import app/data/select
 import app/ui/section
 import app/ui/tidbit
 import app/survey/about_you
 import app/survey/gleam
+import app/survey/other_languages
 import gleam/option.{None, Some}
 import lustre
 import lustre/attribute
 import lustre/cmd.{Cmd}
 import lustre/element.{Element}
+import app/util/render
 
 // MAIN ------------------------------------------------------------------------
 
@@ -33,11 +36,20 @@ pub type Flags {
 }
 
 pub type State {
-  State(about_you: about_you.State, gleam: gleam.State)
+  State(
+    about_you: about_you.State,
+    gleam: gleam.State,
+    other_languages: other_languages.State,
+  )
 }
 
 fn init(_: Flags) -> #(State, Cmd(Action)) {
-  let state = State(about_you: about_you.init(), gleam: gleam.init())
+  let state =
+    State(
+      about_you: about_you.init(),
+      gleam: gleam.init(),
+      other_languages: other_languages.init(),
+    )
 
   #(state, cmd.none())
 }
@@ -47,6 +59,7 @@ fn init(_: Flags) -> #(State, Cmd(Action)) {
 type Action {
   UpdateAboutYou(about_you.Action)
   UpdateGleam(gleam.Action)
+  UpdateOtherLanguages(other_languages.Action)
 }
 
 fn update(state: State, action: Action) -> #(State, Cmd(Action)) {
@@ -61,6 +74,13 @@ fn update(state: State, action: Action) -> #(State, Cmd(Action)) {
       State(..state, gleam: gleam.update(state.gleam, action)),
       cmd.none(),
     )
+    UpdateOtherLanguages(action) -> #(
+      State(
+        ..state,
+        other_languages: other_languages.update(state.other_languages, action),
+      ),
+      cmd.none(),
+    )
     _ -> noop
   }
 }
@@ -70,14 +90,29 @@ fn update(state: State, action: Action) -> #(State, Cmd(Action)) {
 fn render(state: State) -> Element(Action) {
   element.fragment([
     render_introduction(),
+    element.hr([]),
     state.about_you
-    |> about_you.render
+    |> about_you.render()
     |> element.map(UpdateAboutYou),
+    element.hr([]),
     state.gleam
-    |> gleam.render
+    |> gleam.render()
     |> element.map(UpdateGleam),
-    render_other_languages(),
-    render_missing_features(),
+    {
+      let used = select.selected(state.about_you.langs_used)
+
+      render.when(
+        used != [],
+        fn() {
+          element.fragment([
+            element.hr([]),
+            state.other_languages
+            |> other_languages.render(used)
+            |> element.map(UpdateOtherLanguages),
+          ])
+        },
+      )
+    },
   ])
 }
 
@@ -166,24 +201,6 @@ fn render_introduction() -> Element(Action) {
     element.p(
       [attribute.class("max-w-xl mx-auto")],
       [element.text("With that all sorted, let's get started!")],
-    ),
-  ])
-}
-
-fn render_other_languages() -> Element(Action) {
-  section.render([
-    section.title("Section 3", "Other languages", Some("languages"), element.h2),
-  ])
-}
-
-fn render_missing_features() -> Element(Action) {
-  section.render([
-    section.title("Section 4", "Missing features", Some("features"), element.h2),
-    tidbit.render(
-      " Some of the features listed below will *never* come to Gleam, so don't
-        get your hopes up! Instead, consider this an opportunity for us to better
-        understand what different Gleam developers enjoy about fancier languages.
-      ",
     ),
   ])
 }

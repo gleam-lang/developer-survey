@@ -24,7 +24,7 @@ pub fn render(
       let options_classes =
         attribute.class(
           " absolute mt-2 max-h-60 w-full overflow-auto rounded-md bg-white 
-            shadow-lg z-10 text-sm focus:outline-none
+            shadow-lg z-10 text-sm focus:outline-none text-gray-900
           ",
         )
 
