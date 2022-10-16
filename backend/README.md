@@ -10,6 +10,7 @@ Save an entry
 
 ```http
 POST http://localhost:3000/entry HTTP/1.1
+content-type: application/x-www-form-urlencoded 
 
-Your form data here!
+name=Gleam&iscool=1
 ```
