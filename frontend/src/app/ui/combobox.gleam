@@ -14,6 +14,7 @@ import lustre/event
 // RENDER ----------------------------------------------------------------------
 
 pub fn render(
+  name: String,
   selected: String,
   options: List(String),
   on_change: fn(String) -> action,
@@ -29,7 +30,7 @@ pub fn render(
         )
 
       element.div(
-        [attribute.class("relative not-prose")],
+        [attribute.class("relative not-prose"), attribute.name(name)],
         [
           ext_combobox(
             [

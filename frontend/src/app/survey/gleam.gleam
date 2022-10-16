@@ -118,6 +118,7 @@ pub fn render(state: State) -> Element(Action) {
       [attribute.class("max-w-xl mx-auto")],
       [
         listbox.render(
+          "first_heard_about_gleam",
           range.to_string(state.first_heard, None),
           list.map(
             [
@@ -138,6 +139,7 @@ pub fn render(state: State) -> Element(Action) {
       [attribute.class("max-w-xl mx-auto")],
       [
         listbox.render(
+          "duration_using_gleam",
           range.to_string(state.first_used, Some("haven't started yet")),
           list.map(
             [
@@ -176,6 +178,7 @@ pub fn render(state: State) -> Element(Action) {
                     ],
                     [
                       element.textarea([
+                        attribute.name("gleam_usage"),
                         attribute.class(
                           "w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:outline-none h-24",
                         ),
@@ -206,6 +209,7 @@ pub fn render(state: State) -> Element(Action) {
             [attribute.class("max-w-xl mx-auto")],
             [
               select.render(
+                "targets_used",
                 state.targets_used,
                 UpdateTargetsUsed,
                 ["Erlang", "JavaScript"],
@@ -253,6 +257,7 @@ pub fn render(state: State) -> Element(Action) {
       [attribute.class("max-w-xl mx-auto")],
       [
         select.render(
+          "news_sources_used",
           state.news,
           UpdateNews,
           [
@@ -270,6 +275,7 @@ pub fn render(state: State) -> Element(Action) {
       [attribute.class("max-w-xl mx-auto")],
       [
         select.render(
+          "projects_familiar_with",
           state.popular_projects,
           UpdatePopularProjects,
           [

@@ -82,6 +82,7 @@ pub fn render(state: State) -> Element(Action) {
       [attribute.class("max-w-xl mx-auto")],
       [
         combobox.render(
+          "country",
           state.country,
           countries.names_and_flags(),
           UpdateCountry,
@@ -95,6 +96,7 @@ pub fn render(state: State) -> Element(Action) {
       [attribute.class("max-w-xl mx-auto")],
       [
         listbox.render(
+          "programming_experience",
           range.to_string(state.general_experience, None),
           list.map(
             [
@@ -116,6 +118,7 @@ pub fn render(state: State) -> Element(Action) {
       [attribute.class("max-w-xl mx-auto")],
       [
         listbox.render(
+          "professional_programming_experience",
           range.to_string(state.professional_experience, None),
           list.map(
             [
@@ -163,6 +166,7 @@ pub fn render(state: State) -> Element(Action) {
             [attribute.class("max-w-xl mx-auto")],
             [
               listbox.render(
+                "company_size",
                 range.to_string(state.company_size, None),
                 list.map(
                   [
@@ -187,6 +191,7 @@ pub fn render(state: State) -> Element(Action) {
       [attribute.class("max-w-xl mx-auto")],
       [
         select.render(
+          "languages_used",
           state.langs_used,
           UpdateLangsUsed,
           [

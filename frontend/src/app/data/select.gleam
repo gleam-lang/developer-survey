@@ -52,6 +52,7 @@ pub fn toggle(select: Select, option: String) -> Select {
 // RENDER ----------------------------------------------------------------------
 
 pub fn render(
+  name: String,
   select: Select,
   on_toggle: fn(String) -> action,
   options: List(String),
@@ -63,7 +64,7 @@ pub fn render(
   }
 
   element.div(
-    [attribute.class("flex flex-col space-y-2")],
+    [attribute.class("flex flex-col space-y-2"), attribute.name(name)],
     options
     |> list.map(render_option(_, selected, on_toggle)),
   )
