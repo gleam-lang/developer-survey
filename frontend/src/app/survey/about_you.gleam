@@ -14,7 +14,6 @@ import gleam/list
 import gleam/option.{None, Some}
 import lustre/attribute
 import lustre/element.{Element}
-import lustre/event
 
 // STATE -----------------------------------------------------------------------
 

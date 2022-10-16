@@ -119,9 +119,8 @@ external fn ext_listbox_option(
   children: List(Element(action)),
 ) -> Element(action) =
   "ffi/headlessui" "listbox_option"
-
-external fn ext_listbox_label(
-  attrs: List(Attribute(action)),
-  children: List(Element(action)),
-) -> Element(action) =
-  "ffi/headlessui" "listbox_label"
+// external fn ext_listbox_label(
+//   attrs: List(Attribute(action)),
+//   children: List(Element(action)),
+// ) -> Element(action) =
+//   "ffi/headlessui" "listbox_label"

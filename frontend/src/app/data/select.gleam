@@ -93,12 +93,3 @@ fn render_option(
     ],
   )
 }
-
-// UTILS -----------------------------------------------------------------------
-
-fn option_to_set(option: Option(String)) -> Set(String) {
-  case option {
-    None -> set.new()
-    Some(value) -> set.insert(set.new(), value)
-  }
-}

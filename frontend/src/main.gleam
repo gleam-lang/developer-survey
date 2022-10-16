@@ -1,16 +1,14 @@
 // IMPORTS ---------------------------------------------------------------------
 
-import app/data/select
 import app/ui/section
 import app/ui/tidbit
 import app/survey/about_you
 import app/survey/gleam
-import gleam/option.{None, Some}
+import gleam/option.{None}
 import lustre
 import lustre/attribute
 import lustre/cmd.{Cmd}
 import lustre/element.{Element}
-import app/util/render
 
 // MAIN ------------------------------------------------------------------------
 

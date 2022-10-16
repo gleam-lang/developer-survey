@@ -158,9 +158,8 @@ external fn ext_combobox_option(
   children: List(Element(action)),
 ) -> Element(action) =
   "ffi/headlessui" "combobox_option"
-
-external fn ext_combobox_label(
-  attrs: List(Attribute(action)),
-  children: List(Element(action)),
-) -> Element(action) =
-  "ffi/headlessui" "combobox_label"
+// external fn ext_combobox_label(
+//   attrs: List(Attribute(action)),
+//   children: List(Element(action)),
+// ) -> Element(action) =
+//   "ffi/headlessui" "combobox_label"
