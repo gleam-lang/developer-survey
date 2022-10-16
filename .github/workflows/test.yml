@@ -15,7 +15,7 @@ jobs:
       - uses: erlef/setup-beam@v1.13.0
         with:
           otp-version: "23.2"
-          gleam-version: "0.23.0-rc2"
+          gleam-version: "0.24.0-rc1"
 
       # Check formatting
       - run: gleam format --check backend/src backend/test
