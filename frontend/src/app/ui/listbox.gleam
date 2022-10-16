@@ -22,10 +22,11 @@ pub fn render(
     )
 
   element.div(
-    [attribute.class("relative not-prose"), attribute.name(name)],
+    [attribute.class("relative not-prose")],
     [
       ext_listbox(
         [
+          attribute.name(name),
           attribute.value(dynamic.from(selected)),
           event.on("change", change_handler(on_change)),
         ],

@@ -30,7 +30,7 @@ pub fn render(
         )
 
       element.div(
-        [attribute.class("relative not-prose"), attribute.name(name)],
+        [attribute.class("relative not-prose")],
         [
           ext_combobox(
             [
@@ -38,7 +38,7 @@ pub fn render(
               event.on("change", change_handler(on_change, set_query)),
             ],
             [
-              render_input(query_handler(set_query)),
+              render_input(name, query_handler(set_query)),
               ext_combobox_options(
                 [options_classes],
                 options
@@ -53,7 +53,10 @@ pub fn render(
   )
 }
 
-fn render_input(handler: fn(Dynamic, fn(a) -> Nil) -> Nil) -> Element(a) {
+fn render_input(
+  name: String,
+  handler: fn(Dynamic, fn(a) -> Nil) -> Nil,
+) -> Element(a) {
   let container_classes =
     attribute.class(
       " relative w-full cursor-default overflow-hidden rounded-lg bg-white
@@ -78,7 +81,10 @@ fn render_input(handler: fn(Dynamic, fn(a) -> Nil) -> Nil) -> Element(a) {
       element.div(
         [container_classes],
         [
-          ext_combobox_input([input_classes, event.on("change", handler)], []),
+          ext_combobox_input(
+            [attribute.name(name), input_classes, event.on("change", handler)],
+            [],
+          ),
           ext_combobox_button([button_classes], [element.text(":")]),
         ],
       ),
