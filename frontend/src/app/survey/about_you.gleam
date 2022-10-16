@@ -146,30 +146,7 @@ pub fn render(state: State) -> Element(Action) {
               be easier to leave this as free-form and then aggregate the results
               manually.",
           ),
-          element.div(
-            [attribute.class("max-w-xl mx-auto")],
-            [
-              element.div(
-                [attribute.class("relative mt-1")],
-                [
-                  element.div(
-                    [
-                      attribute.class(
-                        "relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none",
-                      ),
-                    ],
-                    [
-                      element.input([
-                        attribute.class(
-                          "w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900",
-                        ),
-                      ]),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
+          text_input("role"),
         ])
       },
     ),
@@ -204,7 +181,7 @@ pub fn render(state: State) -> Element(Action) {
       },
     ),
     // Languages used ------------------------------------------------------------
-    text.render_question("Which of the following languages have you used?"),
+    text.render_question("Which of the following languages do you use?"),
     text.render("Both personally and at work. Select all that apply."),
     element.div(
       [attribute.class("max-w-xl mx-auto")],
@@ -213,12 +190,41 @@ pub fn render(state: State) -> Element(Action) {
           state.langs_used,
           UpdateLangsUsed,
           [
-            "C", "C++", "Elixir", "Elm", "Erlang", "Go", "Haskell", "Java",
-            "JavaScript", "Kotlin", "PHP", "Python", "Ruby", "Rust", "Scala",
-            "Swift", "TypeScript",
+            "C", "C++", "C#", "Elixir", "Elm", "Erlang", "Go", "Haskell", "Java",
+            "JavaScript", "Julia", "Kotlin", "Lisp", "OCaml", "PHP", "Python",
+            "Ruby", "Rust", "Scala", "Swift", "TypeScript",
           ],
         ),
       ],
     ),
+    text.render_question("Any other languages?"),
+    text_input("other_langs"),
   ])
+}
+
+fn text_input(name: String) -> Element(Action) {
+  element.div(
+    [attribute.class("max-w-xl mx-auto"), attribute.name(name)],
+    [
+      element.div(
+        [attribute.class("relative mt-1")],
+        [
+          element.div(
+            [
+              attribute.class(
+                "relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none",
+              ),
+            ],
+            [
+              element.input([
+                attribute.class(
+                  "w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900",
+                ),
+              ]),
+            ],
+          ),
+        ],
+      ),
+    ],
+  )
 }
