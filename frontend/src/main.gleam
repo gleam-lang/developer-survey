@@ -68,17 +68,32 @@ fn update(state: State, action: Action) -> #(State, Cmd(Action)) {
 // RENDER ----------------------------------------------------------------------
 
 fn render(state: State) -> Element(Action) {
-  element.fragment([
-    render_introduction(),
-    element.hr([]),
-    state.about_you
-    |> about_you.render()
-    |> element.map(UpdateAboutYou),
-    element.hr([]),
-    state.gleam
-    |> gleam.render()
-    |> element.map(UpdateGleam),
-  ])
+  element.form(
+    [attribute.action("/entry"), attribute.attribute("method", "POST")],
+    [
+      render_introduction(),
+      element.hr([]),
+      state.about_you
+      |> about_you.render()
+      |> element.map(UpdateAboutYou),
+      element.hr([]),
+      state.gleam
+      |> gleam.render()
+      |> element.map(UpdateGleam),
+      section.render([
+        element.div(
+          [attribute.class("max-w-xl mx-auto my-8")],
+          [
+            element.p([], [element.text("That's it! Thank you!")]),
+            element.button(
+              [attribute.class("bg-pink rounded py-2 px-4 text-charcoal")],
+              [element.text("Submit")],
+            ),
+          ],
+        ),
+      ]),
+    ],
+  )
 }
 
 fn render_introduction() -> Element(Action) {
