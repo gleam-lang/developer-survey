@@ -52,7 +52,7 @@ pub fn toggle(select: Select, option: String) -> Select {
 // RENDER ----------------------------------------------------------------------
 
 pub fn render(
-  name: String,
+  question_name: String,
   select: Select,
   on_toggle: fn(String) -> action,
   options: List(String),
@@ -64,14 +64,15 @@ pub fn render(
   }
 
   element.div(
-    [attribute.class("flex flex-col space-y-2"), attribute.name(name)],
+    [attribute.class("flex flex-col space-y-2")],
     options
-    |> list.map(render_option(_, selected, on_toggle)),
+    |> list.map(render_option(_, question_name, selected, on_toggle)),
   )
 }
 
 fn render_option(
   option: String,
+  question_name: String,
   selected: Set(String),
   on_toggle: fn(String) -> action,
 ) -> Element(action) {
@@ -79,6 +80,7 @@ fn render_option(
     [],
     [
       element.input([
+        attribute.name(question_name <> "[" <> option <> "]"),
         attribute.type_("checkbox"),
         attribute.checked(set.contains(selected, option)),
         event.on(

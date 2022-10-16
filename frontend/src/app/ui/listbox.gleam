@@ -26,14 +26,13 @@ pub fn render(
     [
       ext_listbox(
         [
-          attribute.name(name),
           attribute.value(dynamic.from(selected)),
           event.on("change", change_handler(on_change)),
         ],
         [
           render_selection(selected),
           ext_listbox_options(
-            [options_classes],
+            [attribute.name(name), options_classes],
             list.map(options, render_option),
           ),
         ],
