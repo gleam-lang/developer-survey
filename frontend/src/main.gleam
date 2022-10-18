@@ -48,7 +48,7 @@ fn update(state: State, action: Action) -> #(State, Cmd(Action)) {
 
 fn render(state: State) -> Element(Action) {
   element.form(
-    [attribute.action("/entry"), attribute.attribute("method", "POST")],
+    [attribute.action("/entries"), attribute.attribute("method", "POST")],
     [
       render_introduction(),
       element.hr([]),
