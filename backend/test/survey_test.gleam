@@ -1,6 +1,7 @@
 import gleeunit
 import gleam/erlang/file
 import gleam/uri
+import gleam/string
 import gleam/http
 import gleam/http/request
 import gleam/http/response
@@ -28,8 +29,11 @@ pub fn entry_ok_test() {
 
   assert 201 = response.status
   assert Ok(contents) = file.read("data/" <> response.body <> ".json")
-  assert "{\"name\":\"Lucy\",\"species\":\"Star\",\"gender\":\"Non-binary\"}" =
-    contents
+  assert True =
+    string.contains(
+      contents,
+      "\"name\":\"Lucy\",\"species\":\"Star\",\"gender\":\"Non-binary\"",
+    )
 }
 
 pub fn not_found_test() {

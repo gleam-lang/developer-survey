@@ -1,17 +1,13 @@
 import gleam/bit_builder.{BitBuilder}
 import gleam/bit_string
-import gleam/erlang/file
-import gleam/string
 import gleam/uri
-import gleam/list
-import gleam/json
 import gleam/http
 import gleam/http/request.{Request}
 import gleam/http/response.{Response}
 import gleam/http/service.{Service}
 import survey/log_requests
 import survey/static
-import uuid
+import survey/entry
 
 pub fn router(request: Request(String)) -> Response(String) {
   case request.path_segments(request) {
@@ -48,12 +44,8 @@ fn entries(request: Request(String)) -> Response(String) {
 }
 
 fn create_entry(request: Request(String)) -> Response(String) {
-  assert Ok(uuid) = uuid.generate_v4()
   assert Ok(answers) = uri.parse_query(request.body)
-  let json =
-    json.object(list.map(answers, fn(pair) { #(pair.0, json.string(pair.1)) }))
-  let path = string.concat(["data/", uuid, ".json"])
-  assert Ok(_) = file.write(json.to_string(json), path)
+  assert Ok(uuid) = entry.save(answers)
   response.new(201)
   |> response.set_body(uuid)
 }
