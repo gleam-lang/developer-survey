@@ -9,7 +9,7 @@ import lustre/element.{Element}
 
 pub fn render(children: List(Element(action))) -> Element(action) {
   let classes =
-    " space-y-8 max-w-none
+    " space-y-8 max-w-none py-8 last:py-0
       prose prose-stone dark:prose-invert
       text-charcoal dark:text-stone-50
     "
