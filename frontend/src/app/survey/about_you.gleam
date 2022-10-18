@@ -19,7 +19,6 @@ import lustre/element.{Element}
 
 pub type State {
   State(
-    country: String,
     general_experience: Range,
     professional_experience: Range,
     current_role: String,
@@ -30,7 +29,6 @@ pub type State {
 
 pub fn init() -> State {
   State(
-    country: "Antarctica 🇦🇶",
     general_experience: LessThan("1 year"),
     professional_experience: NA,
     current_role: "",
@@ -42,7 +40,6 @@ pub fn init() -> State {
 // UPDATE ----------------------------------------------------------------------
 
 pub opaque type Action {
-  UpdateCountry(String)
   UpdateGeneralExperience(Range)
   UpdateProfessionalExperience(Range)
   UpdateCurrentRole(String)
@@ -52,7 +49,6 @@ pub opaque type Action {
 
 pub fn update(state: State, action: Action) -> State {
   case action {
-    UpdateCountry(country) -> State(..state, country: country)
     UpdateGeneralExperience(timeframe) ->
       State(..state, general_experience: timeframe)
     UpdateProfessionalExperience(timeframe) ->
@@ -80,14 +76,7 @@ pub fn render(state: State) -> Element(Action) {
     text.render_question("What country are you based in?"),
     element.div(
       [attribute.class("max-w-xl mx-auto")],
-      [
-        combobox.render(
-          "country",
-          state.country,
-          countries.names_and_flags(),
-          UpdateCountry,
-        ),
-      ],
+      [combobox.render("country", ["", ..countries.names_and_flags()])],
     ),
     // Programming experience --------------------------------------------------
     text.render_question("How long have you been programming?"),
