@@ -1,5 +1,8 @@
 // IMPORTS ---------------------------------------------------------------------
 
+import app/data/loop.{
+  Action, Noop, State, UpdateGleamFirstUsed, UpdateProfessionalExperience,
+}
 import app/ui/section
 import app/ui/tidbit
 import app/survey/about_you
@@ -13,55 +16,31 @@ import lustre/element.{Element}
 // MAIN ------------------------------------------------------------------------
 
 ///
-pub fn main(selector: String, hash: String) -> Nil {
+pub fn main(selector: String, _hash: String) -> Nil {
   // Starting a lustre app can fail if the selector is invalid or if no element
   // matching that selector can be found. Failing would be a bit of a disaster
   // for us so we'll just assert that it never does and hope for the best!
   assert Ok(_) =
-    Flags(hash: hash)
-    |> init
+    #(loop.init(), cmd.none())
     |> lustre.application(update, render)
     |> lustre.start(selector)
 
   Nil
 }
 
-// STATE -----------------------------------------------------------------------
-
-pub type Flags {
-  Flags(hash: String)
-}
-
-pub type State {
-  State(about_you: about_you.State, gleam: gleam.State)
-}
-
-fn init(_: Flags) -> #(State, Cmd(Action)) {
-  let state = State(about_you: about_you.init(), gleam: gleam.init())
-
-  #(state, cmd.none())
-}
-
-// UPDATE ----------------------------------------------------------------------
-
-type Action {
-  UpdateAboutYou(about_you.Action)
-  UpdateGleam(gleam.Action)
-}
-
 fn update(state: State, action: Action) -> #(State, Cmd(Action)) {
-  let noop = #(state, cmd.none())
-
   case action {
-    UpdateAboutYou(action) -> #(
-      State(..state, about_you: about_you.update(state.about_you, action)),
+    Noop -> #(state, cmd.none())
+
+    UpdateProfessionalExperience(timeframe) -> #(
+      State(..state, professional_experience: timeframe),
       cmd.none(),
     )
-    UpdateGleam(action) -> #(
-      State(..state, gleam: gleam.update(state.gleam, action)),
+
+    UpdateGleamFirstUsed(timeframe) -> #(
+      State(..state, gleam_first_used: timeframe),
       cmd.none(),
     )
-    _ -> noop
   }
 }
 
@@ -73,13 +52,9 @@ fn render(state: State) -> Element(Action) {
     [
       render_introduction(),
       element.hr([]),
-      state.about_you
-      |> about_you.render()
-      |> element.map(UpdateAboutYou),
+      about_you.render(state.professional_experience),
       element.hr([]),
-      state.gleam
-      |> gleam.render()
-      |> element.map(UpdateGleam),
+      gleam.render(state.gleam_first_used),
       section.render([
         element.div(
           [attribute.class("max-w-xl mx-auto my-8")],
@@ -145,7 +120,7 @@ fn render_introduction() -> Element(Action) {
       [attribute.class("max-w-xl mx-auto")],
       [
         element.text(
-          " Don't worry, none of the questions are required 😅. You're free to 
+          " Don't worry, none of the questions are required! You're free to 
             answer as much or as little as you'd like. If you're pressed for time,
             you can help us the most by completing the first two sections.
           ",
@@ -169,7 +144,7 @@ fn render_introduction() -> Element(Action) {
           [element.text("Gleam Discord server")],
         ),
         element.text(
-          " @lpil or @hayleigh or you can publicly shame Louis on Twitter
+          " @lpil or @hayleigh or you can message Louis on Twitter
             ",
         ),
         element.a(

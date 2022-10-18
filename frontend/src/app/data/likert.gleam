@@ -2,7 +2,6 @@
 
 import lustre/element.{Element}
 import lustre/attribute
-import lustre/event
 import gleam/set.{Set}
 import gleam/list
 import gleam/dynamic
@@ -41,10 +40,7 @@ pub fn rate(likert: Likert, statement: String, rating: Int) {
 
 // RENDER ----------------------------------------------------------------------
 
-pub fn render(
-  likert: Likert,
-  on_rate: fn(String, Int) -> action,
-) -> Element(action) {
+pub fn render(likert: Likert) -> Element(action) {
   let Likert(items) = likert
   element.div(
     [attribute.class("not-prose")],
@@ -83,16 +79,13 @@ pub fn render(
       element.ul(
         [attribute.class("space-y-4")],
         items
-        |> list.map(render_statement(_, on_rate)),
+        |> list.map(render_statement),
       ),
     ],
   )
 }
 
-fn render_statement(
-  item: #(String, Int),
-  on_rate: fn(String, Int) -> action,
-) -> Element(action) {
+fn render_statement(item: #(String, Int)) -> Element(action) {
   let #(prompt, rating) = item
   let render_radio = fn(value) {
     element.input([
@@ -100,13 +93,6 @@ fn render_statement(
       attribute.name(prompt),
       attribute.value(dynamic.from(value)),
       attribute.checked(value == rating),
-      event.on(
-        "change",
-        fn(_, dispatch) {
-          on_rate(prompt, value)
-          |> dispatch
-        },
-      ),
     ])
   }
 

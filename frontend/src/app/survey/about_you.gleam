@@ -1,68 +1,44 @@
 // IMPORTS ---------------------------------------------------------------------
 
 import app/data/range.{Between, LessThan, MoreThan, NA, Range}
-import app/data/select.{Select}
-import app/ui/combobox
-import app/ui/listbox
+import app/data/multiselect
+import app/data/loop.{Action, UpdateProfessionalExperience}
 import app/ui/section
+import app/ui/inputs
 import app/ui/text
 import app/ui/tidbit
 import app/util/countries
 import app/util/render
-import gleam/function
 import gleam/list
 import gleam/option.{None, Some}
 import lustre/attribute
 import lustre/element.{Element}
 
-// STATE -----------------------------------------------------------------------
+const programming_languages = [
+  "C", "C++", "C#", "Elixir", "Elm", "Erlang", "Go", "Haskell", "Java",
+  "JavaScript", "Julia", "Kotlin", "Lisp", "OCaml", "PHP", "Python", "Ruby",
+  "Rust", "Scala", "Swift", "TypeScript",
+]
 
-pub type State {
-  State(
-    general_experience: Range,
-    professional_experience: Range,
-    current_role: String,
-    company_size: Range,
-    langs_used: Select,
-  )
-}
+const timeframes = [
+  NA,
+  LessThan("1 year"),
+  Between("1", "2 years"),
+  Between("2", "5 years"),
+  Between("5", "10 years"),
+  MoreThan("10 years"),
+]
 
-pub fn init() -> State {
-  State(
-    general_experience: LessThan("1 year"),
-    professional_experience: NA,
-    current_role: "",
-    company_size: NA,
-    langs_used: select.multi(),
-  )
-}
-
-// UPDATE ----------------------------------------------------------------------
-
-pub opaque type Action {
-  UpdateGeneralExperience(Range)
-  UpdateProfessionalExperience(Range)
-  UpdateCurrentRole(String)
-  UpdateCompanySize(Range)
-  UpdateLangsUsed(String)
-}
-
-pub fn update(state: State, action: Action) -> State {
-  case action {
-    UpdateGeneralExperience(timeframe) ->
-      State(..state, general_experience: timeframe)
-    UpdateProfessionalExperience(timeframe) ->
-      State(..state, professional_experience: timeframe)
-    UpdateCurrentRole(role) -> State(..state, current_role: role)
-    UpdateCompanySize(timeframe) -> State(..state, company_size: timeframe)
-    UpdateLangsUsed(lang) ->
-      State(..state, langs_used: select.toggle(state.langs_used, lang))
-  }
-}
+const company_sizes = [
+  Between("1", "10 employees"),
+  Between("11", "50 employees"),
+  Between("50", "100 employees"),
+  MoreThan("100 employees"),
+]
 
 // RENDER ----------------------------------------------------------------------
 
-pub fn render(state: State) -> Element(Action) {
+pub fn render(professional_experience: Range) -> Element(Action) {
   section.render([
     section.title("Section 1", "About you", Some("about"), element.h2),
     text.render(
@@ -76,7 +52,7 @@ pub fn render(state: State) -> Element(Action) {
     text.render_question("What country are you based in?"),
     element.div(
       [attribute.class("max-w-xl mx-auto")],
-      [combobox.render("country", ["", ..countries.names_and_flags()])],
+      [inputs.select("country", [], ["", ..countries.names_and_flags()])],
     ),
     // Programming experience --------------------------------------------------
     text.render_question("How long have you been programming?"),
@@ -84,20 +60,10 @@ pub fn render(state: State) -> Element(Action) {
     element.div(
       [attribute.class("max-w-xl mx-auto")],
       [
-        listbox.render(
+        inputs.select(
           "programming_experience",
-          range.to_string(state.general_experience, None),
-          list.map(
-            [
-              LessThan("1 year"),
-              Between("1", "2 years"),
-              Between("2", "5 years"),
-              Between("5", "10 years"),
-              MoreThan("10 years"),
-            ],
-            range.to_string(_, None),
-          ),
-          function.compose(range.from_string, UpdateGeneralExperience),
+          [],
+          list.map(timeframes, range.to_string(_, None)),
         ),
       ],
     ),
@@ -106,27 +72,20 @@ pub fn render(state: State) -> Element(Action) {
     element.div(
       [attribute.class("max-w-xl mx-auto")],
       [
-        listbox.render(
+        inputs.select(
           "professional_programming_experience",
-          range.to_string(state.professional_experience, None),
-          list.map(
-            [
-              NA,
-              LessThan("1 year"),
-              Between("1", "2 years"),
-              Between("2", "5 years"),
-              Between("5", "10 years"),
-              MoreThan("10 years"),
-            ],
-            range.to_string(_, None),
-          ),
-          function.compose(range.from_string, UpdateProfessionalExperience),
+          [
+            inputs.on_change(fn(value) {
+              UpdateProfessionalExperience(range.from_string(value))
+            }),
+          ],
+          list.map(timeframes, range.to_string(_, None)),
         ),
       ],
     ),
     // Current role ------------------------------------------------------------
     render.when(
-      state.professional_experience != NA,
+      professional_experience != NA,
       fn() {
         element.fragment([
           text.render_question("What's your current role?"),
@@ -138,13 +97,13 @@ pub fn render(state: State) -> Element(Action) {
               be easier to leave this as free-form and then aggregate the results
               manually.",
           ),
-          text_input("role"),
+          inputs.text("role"),
         ])
       },
     ),
     // Company size ------------------------------------------------------------
     render.when(
-      state.professional_experience != NA,
+      professional_experience != NA,
       fn() {
         element.fragment([
           text.render_question("How many people work at your company?"),
@@ -154,19 +113,10 @@ pub fn render(state: State) -> Element(Action) {
           element.div(
             [attribute.class("max-w-xl mx-auto")],
             [
-              listbox.render(
+              inputs.select(
                 "company_size",
-                range.to_string(state.company_size, None),
-                list.map(
-                  [
-                    Between("1", "10 employees"),
-                    Between("11", "50 employees"),
-                    Between("50", "100 employees"),
-                    MoreThan("100 employees"),
-                  ],
-                  range.to_string(_, None),
-                ),
-                function.compose(range.from_string, UpdateCompanySize),
+                [],
+                list.map(company_sizes, range.to_string(_, None)),
               ),
             ],
           ),
@@ -178,47 +128,9 @@ pub fn render(state: State) -> Element(Action) {
     text.render("Both personally and at work. Select all that apply."),
     element.div(
       [attribute.class("max-w-xl mx-auto")],
-      [
-        select.render(
-          "languages_used",
-          state.langs_used,
-          UpdateLangsUsed,
-          [
-            "C", "C++", "C#", "Elixir", "Elm", "Erlang", "Go", "Haskell", "Java",
-            "JavaScript", "Julia", "Kotlin", "Lisp", "OCaml", "PHP", "Python",
-            "Ruby", "Rust", "Scala", "Swift", "TypeScript",
-          ],
-        ),
-      ],
+      [multiselect.render("languages_used", programming_languages)],
     ),
     text.render_question("Any other languages?"),
-    text_input("other_langs"),
+    inputs.text("other_langs"),
   ])
-}
-
-fn text_input(name: String) -> Element(Action) {
-  element.div(
-    [attribute.class("max-w-xl mx-auto"), attribute.name(name)],
-    [
-      element.div(
-        [attribute.class("relative mt-1")],
-        [
-          element.div(
-            [
-              attribute.class(
-                "relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none",
-              ),
-            ],
-            [
-              element.input([
-                attribute.class(
-                  "w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900",
-                ),
-              ]),
-            ],
-          ),
-        ],
-      ),
-    ],
-  )
 }

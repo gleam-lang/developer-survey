@@ -17,7 +17,7 @@ pub fn render(
   let options_classes =
     attribute.class(
       " absolute mt-2 max-h-60 w-full overflow-auto rounded-md bg-white 
-        shadow-lg z-10 text-sm focus:outline-none text-gray-900
+        shadow-lg z-10 text-sm text-gray-900
       ",
     )
 
@@ -45,7 +45,7 @@ fn render_selection(selected: String) -> Element(a) {
   let container_classes =
     attribute.class(
       " relative w-full cursor-default overflow-hidden rounded-lg bg-white
-        text-left shadow-md focus:outline-none py-1
+        text-left shadow-md py-1
       ",
     )
   let selection_classes =
