@@ -32,7 +32,7 @@ pub fn list_json() -> Result(String, file.Reason) {
   Ok(json)
 }
 
-fn ensure_data_directory_exists() -> Result(Nil, file.Reason) {
+pub fn ensure_data_directory_exists() -> Result(Nil, file.Reason) {
   case file.make_directory("data") {
     Ok(_) -> Ok(Nil)
     Error(file.Eexist) -> Ok(Nil)

@@ -3,6 +3,7 @@ import survey/entry
 import gleam/erlang/file
 
 pub fn saving_test() {
+  assert Ok(_) = entry.ensure_data_directory_exists()
   assert Ok(_) = file.recursive_delete("data")
   assert Ok("[\n  \n]") = entry.list_json()
 
