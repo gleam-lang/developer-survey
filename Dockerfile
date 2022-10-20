@@ -1,22 +1,14 @@
-FROM ghcr.io/gleam-lang/gleam:v0.24.0-rc3-node-slim as frontend
-
-COPY ./frontend /build
-
-RUN \
-  apt-get update \
-  && apt-get install --yes ca-certificates \
-  && cd /build \
-  && npm ci \
-  && gleam build \
-  && npx parcel build src/index.html --dist-dir /app --no-source-maps
-
 FROM ghcr.io/gleam-lang/gleam:v0.24.0-rc3-erlang-alpine
 
-COPY ./backend /build/
-COPY --from=frontend /app /build/backend/priv/static
+# Add project code
+COPY . /build/
 
 RUN \
-  cd /build \
+  apk add --update --no-cache nodejs npm \
+  && cd /build/frontend \
+  && npm ci \
+  && npm run build \
+  && cd ../backend \
   && gleam export erlang-shipment \
   && mv build/erlang-shipment /app \
   && rm -r /build \
