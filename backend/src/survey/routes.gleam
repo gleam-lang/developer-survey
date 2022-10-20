@@ -1,5 +1,6 @@
 import gleam/bit_builder.{BitBuilder}
 import gleam/bit_string
+import gleam/result
 import gleam/uri
 import gleam/http
 import gleam/http/request.{Request}
@@ -44,8 +45,11 @@ fn entries(request: Request(String)) -> Response(String) {
 }
 
 fn create_entry(request: Request(String)) -> Response(String) {
+  let ip =
+    request.get_header(request, "fly-client-ip")
+    |> result.unwrap("")
   assert Ok(answers) = uri.parse_query(request.body)
-  assert Ok(uuid) = entry.save(answers)
+  assert Ok(uuid) = entry.save(ip, answers)
   response.new(201)
   |> response.set_body(uuid)
 }

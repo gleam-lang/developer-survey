@@ -5,13 +5,22 @@ import gleam/string
 import uuid
 
 // TODO: add current timestamp
-pub fn save(answers: List(#(String, String))) -> Result(String, file.Reason) {
+pub fn save(
+  ip: String,
+  answers: List(#(String, String)),
+) -> Result(String, file.Reason) {
   try _ = ensure_data_directory_exists()
   assert Ok(uuid) = uuid.generate_v4()
-  let answers = list.map(answers, fn(pair) { #(pair.0, json.string(pair.1)) })
-  let json = json.object([#("id", json.string(uuid)), ..answers])
+  let json =
+    answers
+    |> list.filter(fn(pair) { pair.0 != "ip" || pair.0 != "id" })
+    |> list.map(fn(pair) { #(pair.0, json.string(pair.1)) })
+    |> list.key_set("id", json.string(uuid))
+    |> list.key_set("ip", json.string(ip))
+    |> json.object()
+    |> json.to_string()
   let path = "data/" <> uuid <> ".json"
-  try _ = file.write(json.to_string(json), path)
+  try _ = file.write(json, path)
   Ok(uuid)
 }
 
