@@ -24,7 +24,7 @@ const time_periods = [
   Between("1", "6 months"),
   Between("6 months", "1 year"),
   Between("1 year", "2 years"),
-  MoreThan("1 years"),
+  MoreThan("2 years"),
 ]
 
 // RENDER ----------------------------------------------------------------------

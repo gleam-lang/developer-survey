@@ -7,7 +7,8 @@ RUN \
   apk add --update --no-cache nodejs npm \
   && cd /build/frontend \
   && npm ci \
-  && npm run build \
+  && gleam build \
+  && npx parcel build src/index.html --dist-dir ../backend/priv/static --no-source-maps \
   && cd ../backend \
   && gleam export erlang-shipment \
   && mv build/erlang-shipment /app \
