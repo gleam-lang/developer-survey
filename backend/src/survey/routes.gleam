@@ -49,9 +49,11 @@ fn create_entry(request: Request(String)) -> Response(String) {
     request.get_header(request, "fly-client-ip")
     |> result.unwrap("")
   assert Ok(answers) = uri.parse_query(request.body)
-  assert Ok(uuid) = entry.save(ip, answers)
+  assert Ok(_) = entry.save(ip, answers)
+
+  // TODO: redirect to thank you page
   response.new(201)
-  |> response.set_body(uuid)
+  |> response.set_body("Thanks!")
 }
 
 fn method_not_allowed() -> Response(String) {

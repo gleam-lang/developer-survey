@@ -1,11 +1,11 @@
 import gleeunit
-import gleam/erlang/file
 import gleam/uri
 import gleam/string
 import gleam/http
 import gleam/http/request
 import gleam/http/response
 import survey/routes.{router}
+import survey/entry
 
 pub fn main() {
   gleeunit.main()
@@ -28,10 +28,10 @@ pub fn entry_ok_test() {
     |> router
 
   assert 201 = response.status
-  assert Ok(contents) = file.read("data/" <> response.body <> ".json")
+  assert Ok(json) = entry.list_json()
   assert True =
     string.contains(
-      contents,
+      json,
       "\"name\":\"Lucy\",\"species\":\"Star\",\"gender\":\"Non-binary\"",
     )
 }
