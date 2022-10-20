@@ -7,4 +7,9 @@
 # Start the frontend
 cd frontend
 npm install
+npm start
+
+# Start the backend
+cd backend
+gleam run
 ```
