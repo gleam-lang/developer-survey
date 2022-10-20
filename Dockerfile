@@ -1,14 +1,22 @@
-FROM ghcr.io/gleam-lang/gleam:v0.24.0-rc3-erlang-alpine
+FROM ghcr.io/gleam-lang/gleam:v0.24.0-rc3-node-slim as frontend
 
-# Add project code
-COPY . /build/
+COPY ./frontend /build
 
 RUN \
-  apk add --update --no-cache nodejs npm \
-  && cd /build/frontend \
+  apt-get update \
+  && apt-get install --yes ca-certificates \
+  && cd /build \
   && npm ci \
-  && npm run build \
-  && cd ../backend \
+  && gleam build \
+  && npx parcel build src/index.html --dist-dir /app --no-source-maps
+
+FROM ghcr.io/gleam-lang/gleam:v0.24.0-rc3-erlang-alpine
+
+COPY ./backend /build/
+COPY --from=frontend /app /build/backend/priv/static
+
+RUN \
+  cd /build \
   && gleam export erlang-shipment \
   && mv build/erlang-shipment /app \
   && rm -r /build \
