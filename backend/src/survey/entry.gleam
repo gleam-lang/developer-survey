@@ -1,9 +1,10 @@
 import gleam/erlang/file
+import gleam/string
 import gleam/json
 import gleam/list
 import uuid
 
-const database = "data/entries.jsonc"
+const database = "data/entries.jsonl"
 
 // TODO: add current timestamp
 pub fn save(
@@ -20,6 +21,7 @@ pub fn save(
     |> list.key_set("ip", json.string(ip))
     |> json.object()
     |> json.to_string()
+    |> string.append("\n")
   file.append(json, database)
 }
 

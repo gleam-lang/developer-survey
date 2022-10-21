@@ -51,9 +51,9 @@ fn create_entry(request: Request(String)) -> Response(String) {
   assert Ok(answers) = uri.parse_query(request.body)
   assert Ok(_) = entry.save(ip, answers)
 
-  // TODO: redirect to thank you page
-  response.new(201)
-  |> response.set_body("Thanks!")
+  response.new(303)
+  |> response.set_header("location", "/?thank-you")
+  |> response.set_body("Thanks! You are being redirected.")
 }
 
 fn method_not_allowed() -> Response(String) {
