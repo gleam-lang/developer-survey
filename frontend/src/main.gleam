@@ -3,12 +3,14 @@
 import app/data/loop.{
   Action, Noop, State, UpdateGleamFirstUsed, UpdateProfessionalExperience,
 }
+import app/ui/inputs
+import app/ui/text
 import app/ui/section
 import app/ui/tidbit
 import app/survey/about_you
 import app/survey/programming
 import app/survey/gleam
-import gleam/option.{None}
+import gleam/option.{None, Some}
 import lustre
 import lustre/attribute
 import lustre/cmd.{Cmd}
@@ -86,6 +88,7 @@ fn render_survey(state: State) -> Element(Action) {
       gleam.render(state.gleam_first_used),
       element.hr([]),
       about_you.render(),
+      element.hr([]),
       submit(),
     ],
   )
@@ -93,6 +96,9 @@ fn render_survey(state: State) -> Element(Action) {
 
 fn submit() -> Element(Action) {
   section.render([
+    section.title("Section 4", "And finally", Some("finally"), element.h2),
+    text.render_question("Anything else you'd like to tell us? 😃"),
+    inputs.text("anything_else"),
     element.div(
       [attribute.class("max-w-xl mx-auto my-8")],
       [
@@ -124,40 +130,12 @@ fn render_introduction() -> Element(Action) {
         ),
       ],
     ),
-    element.div(
-      [attribute.class("max-w-xl mx-auto")],
-      [
-        element.span(
-          [],
-          [element.text("The survey is broken up into four sections:")],
-        ),
-        element.ul(
-          [],
-          [
-            element.li(
-              [],
-              [element.text("Your background and programming practice")],
-            ),
-            element.li([], [element.text("Your experience with Gleam")]),
-            element.li(
-              [],
-              [element.text("Your experience with other languages")],
-            ),
-            element.li(
-              [],
-              [element.text("Your thoughts on features missing from Gleam")],
-            ),
-          ],
-        ),
-      ],
-    ),
     element.p(
       [attribute.class("max-w-xl mx-auto")],
       [
         element.text(
           " Don't worry, none of the questions are required! You're free to 
-            answer as much or as little as you'd like. If you're pressed for time,
-            you can help us the most by completing the first two sections.
+            answer as much or as little as you'd like.
           ",
         ),
       ],

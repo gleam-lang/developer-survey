@@ -16,6 +16,11 @@ const news_sources = [
   "@louispilfold on Twitter", "erlangforums.com", "GitHub discussions",
 ]
 
+const merchandise = [
+  "Earings", "Enamel pins", "Hoodies", "Leggings", "Mugs", "Stickers",
+  "T-shirts",
+]
+
 const time_periods = [
   NA,
   LessThan("1 month"),
@@ -99,6 +104,9 @@ pub fn render(gleam_first_used: Range) -> Element(Action) {
         ])
       },
     ),
+    // Merchandise -------------------------------------------------------------
+    text.render_question("Would you be interested in Gleam merchandise?"),
+    inputs.multiselect("merchandise", merchandise),
     // Gleam news --------------------------------------------------------------
     text.render_question("Where do you go for Gleam news and discussion?"),
     inputs.multiselect("news_sources_used", news_sources),

@@ -49,7 +49,7 @@ pub fn render() -> Element(Action) {
     inputs.select_with_other("gender", [], genders),
     // Transgender -------------------------------------------------------------
     text.render_question("Are you transgender?"),
-    inputs.select("transgender", [], ["", "Yes", "No", "Maybe"]),
+    inputs.select("transgender", [], ["", "Yes", "No"]),
     // Sexual Orientation ------------------------------------------------------
     text.render_question("What is your sexual orientation?"),
     inputs.select_with_other("sexual-orientation", [], sexual_orientations),

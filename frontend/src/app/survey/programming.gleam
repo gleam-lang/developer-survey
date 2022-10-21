@@ -18,6 +18,8 @@ const programming_languages = [
   "Rust", "Scala", "Swift", "TypeScript",
 ]
 
+const operating_systems = ["FreeBSD", "Linux", "OpenBSD", "Windows", "macOS"]
+
 const timeframes = [
   NA,
   LessThan("1 year"),
@@ -107,16 +109,24 @@ pub fn render(professional_experience: Range) -> Element(Action) {
           text.render(
             "If you're not working right now, think back to your previous company.",
           ),
-          element.div(
-            [attribute.class("max-w-xl mx-auto")],
-            [
-              inputs.select(
-                "company_size",
-                [],
-                list.map(company_sizes, range.to_string(_, None)),
-              ),
-            ],
+          inputs.select(
+            "company_size",
+            [],
+            list.map(company_sizes, range.to_string(_, None)),
           ),
+        ])
+      },
+    ),
+    // Industry ---------------------------------------------------------------
+    render.when(
+      professional_experience != NA,
+      fn() {
+        element.fragment([
+          text.render_question("What industry do you work in?"),
+          text.render(
+            "If you're not working right now, think back to your previous or most recent role.",
+          ),
+          inputs.text("industry"),
         ])
       },
     ),
@@ -126,5 +136,14 @@ pub fn render(professional_experience: Range) -> Element(Action) {
     inputs.multiselect("languages_used", programming_languages),
     text.render_question("Any other languages?"),
     inputs.text("other_langs"),
+    // Operating systems (development) -------------------------------------------
+    text.render_question("Which operating systems do you develop on?"),
+    inputs.multiselect("development_operating_system", operating_systems),
+    // Operating systems (production) -------------------------------------------
+    text.render_question("Which operating systems do you use in production?"),
+    inputs.multiselect(
+      "production_operating_system",
+      list.append(operating_systems, ["I don't deploy to servers"]),
+    ),
   ])
 }
