@@ -52,6 +52,6 @@ pub fn render() -> Element(Action) {
     inputs.select("transgender", [], ["Yes", "No"]),
     // Sexual Orientation ------------------------------------------------------
     text.render_question("What is your sexual orientation?"),
-    inputs.select_with_other("sexual-orientation", [], sexual_orientations),
+    inputs.select_with_other("sexual_orientation", [], sexual_orientations),
   ])
 }

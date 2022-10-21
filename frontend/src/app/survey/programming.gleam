@@ -5,7 +5,6 @@ import app/data/loop.{Action, UpdateProfessionalExperience}
 import app/ui/section
 import app/ui/inputs
 import app/ui/text
-import app/ui/tidbit
 import app/util/render
 import gleam/list
 import gleam/option.{None, Some}
@@ -91,11 +90,6 @@ pub fn render(professional_experience: Range) -> Element(Action) {
           text.render(
             "If you're not working right now, think back to your previous or most recent role.",
           ),
-          tidbit.render(
-            " Roles and titles are so varied that we thought it would
-              be easier to leave this as free-form and then aggregate the results
-              manually.",
-          ),
           inputs.text("role"),
         ])
       },
@@ -106,9 +100,6 @@ pub fn render(professional_experience: Range) -> Element(Action) {
       fn() {
         element.fragment([
           text.render_question("How many people work at your company?"),
-          text.render(
-            "If you're not working right now, think back to your previous company.",
-          ),
           inputs.select(
             "company_size",
             [],
@@ -123,9 +114,6 @@ pub fn render(professional_experience: Range) -> Element(Action) {
       fn() {
         element.fragment([
           text.render_question("What industry do you work in?"),
-          text.render(
-            "If you're not working right now, think back to your previous or most recent role.",
-          ),
           inputs.text("industry"),
         ])
       },

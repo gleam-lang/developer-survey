@@ -68,13 +68,13 @@ fn render_thanks() -> Element(Action) {
       [attribute.class("max-w-xl mx-auto")],
       [
         element.text(
-          " This survey is designed to help us understand the needs of Gleam
-            developers and how we can improve the language and tooling. We
-            know we have a diverse community of users, and better understanding
-            that community will help us steer the ship in the future!
-          ",
+          "Please share this survey with any of your friends who use or are interested in Gleam!",
         ),
       ],
+    ),
+    element.p(
+      [attribute.class("max-w-xl mx-auto")],
+      [element.a([attribute.href("/")], [element.text("Return to the survey")])],
     ),
   ])
 }
