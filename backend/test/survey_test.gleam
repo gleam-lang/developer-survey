@@ -27,7 +27,8 @@ pub fn entry_ok_test() {
     |> request.set_header("content-type", "application/x-www-form-urlencoded")
     |> router
 
-  assert 201 = response.status
+  assert 303 = response.status
+  assert Ok("/?thank-you") = response.get_header(response, "location")
   assert Ok(json) = entry.list_json()
   assert True =
     string.contains(
