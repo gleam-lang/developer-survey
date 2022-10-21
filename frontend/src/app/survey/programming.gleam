@@ -134,8 +134,6 @@ pub fn render(professional_experience: Range) -> Element(Action) {
     text.render_question("Which of the following languages do you use?"),
     text.render("Both personally and at work. Select all that apply."),
     inputs.multiselect("languages_used", programming_languages),
-    text.render_question("Any other languages?"),
-    inputs.text("other_langs"),
     // Operating systems (development) -------------------------------------------
     text.render_question("Which operating systems do you develop on?"),
     inputs.multiselect("development_operating_system", operating_systems),
