@@ -11,7 +11,9 @@ import app/survey/about_you
 import app/survey/programming
 import app/survey/gleam
 import gleam/option.{None, Some}
+import gleam/dynamic.{Dynamic}
 import lustre
+import lustre/event
 import lustre/attribute
 import lustre/cmd.{Cmd}
 import lustre/element.{Element}
@@ -77,9 +79,30 @@ fn render_thanks() -> Element(Action) {
   ])
 }
 
+external fn prevent_default(event: Dynamic) -> Nil =
+  "ffi/event.mjs" "preventDefault"
+
+external fn get_event_key(event: Dynamic) -> String =
+  "ffi/event.mjs" "getEventKey"
+
 fn render_survey(state: State) -> Element(Action) {
+  // This is a long form and in testing we found that users might accidentally
+  // submit it early by hitting enter, so we disable this behaviour.
+  let prevent_enter_submit = fn(event, _dispatch) {
+    case get_event_key(event) {
+      "Enter" -> prevent_default(event)
+      _ -> Nil
+    }
+  }
+
   element.form(
-    [attribute.action("/entries"), attribute.attribute("method", "POST")],
+    [
+      attribute.action("/entries"),
+      attribute.attribute("method", "POST"),
+      event.on("keyPress", prevent_enter_submit),
+      event.on("keyDown", prevent_enter_submit),
+      event.on("keyUp", prevent_enter_submit),
+    ],
     [
       render_introduction(),
       element.hr([]),
