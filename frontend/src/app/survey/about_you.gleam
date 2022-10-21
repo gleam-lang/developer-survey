@@ -23,7 +23,7 @@ const ages = [
 const genders = ["Female", "Male", "Non-binary"]
 
 const sexual_orientations = [
-  "Bisexual or Pansexual", "Gay or Lesbian", "Straight or Heterosexual", "Queer",
+  "Bisexual", "Gay", "Lesbian", "Pansexual", "Straight or Heterosexual",
 ]
 
 // RENDER ----------------------------------------------------------------------
@@ -49,7 +49,7 @@ pub fn render() -> Element(Action) {
     inputs.select_with_other("gender", [], genders),
     // Transgender -------------------------------------------------------------
     text.render_question("Are you transgender?"),
-    inputs.select("transgender", [], ["", "Yes", "No"]),
+    inputs.select("transgender", [], ["Yes", "No"]),
     // Sexual Orientation ------------------------------------------------------
     text.render_question("What is your sexual orientation?"),
     inputs.select_with_other("sexual-orientation", [], sexual_orientations),

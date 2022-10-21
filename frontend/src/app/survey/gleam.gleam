@@ -17,8 +17,8 @@ const news_sources = [
 ]
 
 const merchandise = [
-  "Earings", "Enamel pins", "Hoodies", "Leggings", "Mugs", "Stickers",
-  "T-shirts",
+  "Earings", "Enamel pins", "Hoodies", "Leggings", "Mugs", "Notepads",
+  "Stickers", "T-shirts",
 ]
 
 const time_periods = [
@@ -110,7 +110,5 @@ pub fn render(gleam_first_used: Range) -> Element(Action) {
     // Gleam news --------------------------------------------------------------
     text.render_question("Where do you go for Gleam news and discussion?"),
     inputs.multiselect("news_sources_used", news_sources),
-    text.render_question("Somewhere else?"),
-    inputs.text("other_news_source"),
   ])
 }
