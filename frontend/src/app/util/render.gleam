@@ -1,10 +1,8 @@
 import lustre/element.{Element}
+import lustre/attribute
 
 // RENDER ----------------------------------------------------------------------
 
 pub fn when(cond: Bool, el: fn() -> Element(action)) -> Element(action) {
-  case cond {
-    True -> el()
-    False -> element.text("")
-  }
+  element.div([attribute.classes([#("hidden", !cond)])], [el()])
 }
