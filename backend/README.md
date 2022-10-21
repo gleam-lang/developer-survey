@@ -9,7 +9,7 @@ gleam run # Here we go!
 Save an entry
 
 ```http
-POST http://localhost:3000/entry HTTP/1.1
+POST http://localhost:3000/entries HTTP/1.1
 content-type: application/x-www-form-urlencoded 
 
 name=Gleam&iscool=1

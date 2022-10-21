@@ -6,6 +6,7 @@ import app/data/loop.{
 import app/ui/section
 import app/ui/tidbit
 import app/survey/about_you
+import app/survey/programming
 import app/survey/gleam
 import gleam/option.{None}
 import lustre
@@ -16,12 +17,12 @@ import lustre/element.{Element}
 // MAIN ------------------------------------------------------------------------
 
 ///
-pub fn main(selector: String, _hash: String) -> Nil {
+pub fn main(selector: String, query: String) -> Nil {
   // Starting a lustre app can fail if the selector is invalid or if no element
   // matching that selector can be found. Failing would be a bit of a disaster
   // for us so we'll just assert that it never does and hope for the best!
   assert Ok(_) =
-    #(loop.init(), cmd.none())
+    #(loop.init(query), cmd.none())
     |> lustre.application(update, render)
     |> lustre.start(selector)
 
@@ -47,28 +48,62 @@ fn update(state: State, action: Action) -> #(State, Cmd(Action)) {
 // RENDER ----------------------------------------------------------------------
 
 fn render(state: State) -> Element(Action) {
+  case state.thank_you {
+    True -> render_thanks()
+    False -> render_survey(state)
+  }
+}
+
+fn render_thanks() -> Element(Action) {
+  section.render([
+    element.h1(
+      [attribute.class("max-w-xl mx-auto font-medium text-3xl text-pink")],
+      [element.text("Thank you! 💖")],
+    ),
+    element.p(
+      [attribute.class("max-w-xl mx-auto")],
+      [
+        element.text(
+          " This survey is designed to help us understand the needs of Gleam
+            developers and how we can improve the language and tooling. We
+            know we have a diverse community of users, and better understanding
+            that community will help us steer the ship in the future!
+          ",
+        ),
+      ],
+    ),
+  ])
+}
+
+fn render_survey(state: State) -> Element(Action) {
   element.form(
     [attribute.action("/entries"), attribute.attribute("method", "POST")],
     [
       render_introduction(),
       element.hr([]),
-      about_you.render(state.professional_experience),
+      programming.render(state.professional_experience),
       element.hr([]),
       gleam.render(state.gleam_first_used),
-      section.render([
-        element.div(
-          [attribute.class("max-w-xl mx-auto my-8")],
-          [
-            element.p([], [element.text("That's it! Thank you!")]),
-            element.button(
-              [attribute.class("bg-pink rounded py-2 px-4 text-charcoal")],
-              [element.text("Submit")],
-            ),
-          ],
-        ),
-      ]),
+      element.hr([]),
+      about_you.render(),
+      submit(),
     ],
   )
+}
+
+fn submit() -> Element(Action) {
+  section.render([
+    element.div(
+      [attribute.class("max-w-xl mx-auto my-8")],
+      [
+        element.p([], [element.text("That's it! Thank you!")]),
+        element.button(
+          [attribute.class("bg-pink rounded py-2 px-4 text-charcoal")],
+          [element.text("Submit")],
+        ),
+      ],
+    ),
+  ])
 }
 
 fn render_introduction() -> Element(Action) {
@@ -127,11 +162,17 @@ fn render_introduction() -> Element(Action) {
         ),
       ],
     ),
-    tidbit.render(
-      " Did you know: this survey is written entirely in Gleam! Keep an eye
-        out for little hints like this as you work your way through the survey.
-      ",
-    ),
+    tidbit.render_container([
+      element.text(
+        " Did you know: this survey is written entirely in Gleam! The source code
+        is available
+        ",
+      ),
+      element.a(
+        [attribute.href("https://github.com/gleam-lang/developer-survey/")],
+        [element.text("on GitHub.")],
+      ),
+    ]),
     element.p(
       [attribute.class("max-w-xl mx-auto")],
       [

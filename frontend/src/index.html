@@ -17,7 +17,7 @@
         import * as App from 'app'
 
         const selector = 'body'
-        const hash = window.location.hash
+        const search = window.location.search
 
         window.addEventListener('DOMContentLoaded', () => {
             // Once the DOM has been parsed and loaded, we can remove the noscript
@@ -25,7 +25,7 @@
             // I enjoy writing pointless code so here we are.
             document.querySelector('noscript').remove()
 
-            App.main(selector, hash)
+            App.main(selector, search)
         })
     </script>
 </head>
