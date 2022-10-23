@@ -120,6 +120,12 @@ fn render_survey(state: State) -> Element(Action) {
 fn submit() -> Element(Action) {
   section.render([
     section.title("Section 4", "And finally", Some("finally"), element.h2),
+    text.render_question("Where did you hear about this survey?"),
+    inputs.select(
+      "source",
+      [],
+      ["erlangforums.com", "Discord", "Reddit", "Twitter"],
+    ),
     text.render_question("Anything else you'd like to tell us? 😃"),
     inputs.text("anything_else"),
     element.div(
