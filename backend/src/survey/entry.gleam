@@ -19,6 +19,7 @@ pub fn save(
     |> list.map(fn(pair) { #(pair.0, json.string(pair.1)) })
     |> list.key_set("id", json.string(uuid))
     |> list.key_set("ip", json.string(ip))
+    |> list.key_set("inserted_at", json.string(current_timestamp()))
     |> json.object()
     |> json.to_string()
     |> string.append("\n")
@@ -37,3 +38,6 @@ pub fn ensure_data_directory_exists() -> Result(Nil, file.Reason) {
     Error(other) -> Error(other)
   }
 }
+
+external fn current_timestamp() -> String =
+  "survey_ffi" "current_timestamp"

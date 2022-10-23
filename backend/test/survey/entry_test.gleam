@@ -12,4 +12,5 @@ pub fn saving_test() {
   assert Ok(json) = entry.list_json()
   assert True =
     string.contains(json, "\"name\":\"Lucy\",\"magic\":\"true\",\"id\":\"")
+  assert True = string.contains(json, "\"inserted_at\":\"")
 }

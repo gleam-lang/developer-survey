@@ -1,6 +1,6 @@
 -module(survey_ffi).
 
--export([configure_logger_backend/0, priv_directory/0]).
+-export([configure_logger_backend/0, priv_directory/0, current_timestamp/0]).
 
 configure_logger_backend() ->
     ok = logger:set_primary_config(level, info),
@@ -12,3 +12,7 @@ configure_logger_backend() ->
 
 priv_directory() ->
     list_to_binary(code:priv_dir(survey)).
+
+current_timestamp() ->
+    Now = erlang:system_time(second),
+    list_to_binary(calendar:system_time_to_rfc3339(Now)).
