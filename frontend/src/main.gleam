@@ -171,28 +171,27 @@ fn render_introduction() -> Element(Action) {
       ),
       element.a(
         [attribute.href("https://github.com/gleam-lang/developer-survey/")],
-        [element.text("on GitHub.")],
+        [element.text("on GitHub")],
       ),
+      element.text("."),
     ]),
     element.p(
       [attribute.class("max-w-xl mx-auto")],
       [
         element.text(
           " If you have any questions or run into any problems, please reach
-            out to us in the ",
+            out to @lpil or @hayleigh in the ",
         ),
         element.a(
           [attribute.href("https://discord.gg/Fm8Pwmy")],
           [element.text("Gleam Discord server")],
         ),
-        element.text(
-          " @lpil or @hayleigh or you can message Louis on Twitter
-            ",
-        ),
+        element.text(", or message Louis on Twitter at "),
         element.a(
           [attribute.href("https://twitter.com/louispilfold")],
           [element.text("@louispilfold")],
         ),
+        element.text("."),
       ],
     ),
     element.p(
