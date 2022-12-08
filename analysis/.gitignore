@@ -1,5 +1,6 @@
 !*/.keep
 **/*.jsonl
+**/*.json
 *.beam
 *.ez
 build

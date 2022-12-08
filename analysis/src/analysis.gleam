@@ -43,6 +43,40 @@ pub type Entry {
   )
 }
 
+fn entry_json(entry: Entry) -> json.Json {
+  json.object([
+    #("production_os", json.array(entry.production_os, json.string)),
+    #("development_os", json.array(entry.development_os, json.string)),
+    #("targets", json.array(entry.targets, json.string)),
+    #("merchandise", json.array(entry.merchandise, json.string)),
+    #("news_sources", json.array(entry.news_sources, json.string)),
+    #("languages", json.array(entry.languages, json.string)),
+    #("age", json.string(entry.age)),
+    #("anything_else", json.string(entry.anything_else)),
+    #("company_size", json.string(entry.company_size)),
+    #("country", json.string(entry.country)),
+    #("duration_using_gleam", json.string(entry.duration_using_gleam)),
+    #("first_heard_about_gleam", json.string(entry.first_heard_about_gleam)),
+    #("gender", json.string(entry.gender)),
+    #("gleam_future_additions", json.string(entry.gleam_future_additions)),
+    #("gleam_usage", json.string(entry.gleam_usage)),
+    #("id", json.string(entry.id)),
+    #("industry", json.string(entry.industry)),
+    #("inserted_at", json.string(entry.inserted_at)),
+    #("ip", json.string(entry.ip)),
+    #(
+      "professional_programming_experience",
+      json.string(entry.professional_programming_experience),
+    ),
+    #("programming_experience", json.string(entry.programming_experience)),
+    #("role", json.string(entry.role)),
+    #("sexual_orientation", json.string(entry.sexual_orientation)),
+    #("source", json.string(entry.source)),
+    #("transgender", json.string(entry.transgender)),
+    #("why_do_you_like_gleam", json.string(entry.why_do_you_like_gleam)),
+  ])
+}
+
 pub type JsonMap =
   Map(String, String)
 
@@ -62,12 +96,39 @@ pub fn main() {
     |> list.reverse
   }
 
-  let _production_os_counts = count(fn(e) { e.production_os })
-  let _development_os_counts = count(fn(e) { e.development_os })
-  let _targets = count(fn(e) { e.targets })
-  let _news_sources = count(fn(e) { e.news_sources })
-  let _merchandise = count(fn(e) { e.merchandise })
-  let _languages = count(fn(e) { e.languages })
+  let production_os_counts = count(fn(e) { e.production_os })
+  let development_os_counts = count(fn(e) { e.development_os })
+  let targets = count(fn(e) { e.targets })
+  let news_sources = count(fn(e) { e.news_sources })
+  let merchandise = count(fn(e) { e.merchandise })
+  let languages = count(fn(e) { e.languages })
+
+  list.map(entries, fn(e) { e.anything_else })
+  |> list.filter(fn(x) { x != "" })
+  |> list.map(fn(x) {
+    io.println("")
+    io.println(x)
+  })
+
+  let countjson = fn(collection: List(#(String, Int))) {
+    json.object(list.map(collection, fn(x) { #(x.0, json.int(x.1)) }))
+  }
+
+  let entries = json.array(entries, of: entry_json)
+
+  let groups =
+    json.object([
+      #("production_os", countjson(production_os_counts)),
+      #("development_os", countjson(development_os_counts)),
+      #("targets", countjson(targets)),
+      #("news_sources", countjson(news_sources)),
+      #("merchandise", countjson(merchandise)),
+      #("languages", countjson(languages)),
+    ])
+
+  let json = json.object([#("groups", groups), #("entries", entries)])
+
+  assert Ok(_) = file.write(json.to_string(json), "2022-processed.json")
   // anything_else: String,
   // company_size: String,
   // country: String,
@@ -76,10 +137,8 @@ pub fn main() {
   // gender: String,
   // gleam_future_additions: String,
   // gleam_usage: String,
-  // id: String,
   // industry: String,
   // inserted_at: String,
-  // ip: String,
   // professional_programming_experience: String,
   // programming_experience: String,
   // role: String,
