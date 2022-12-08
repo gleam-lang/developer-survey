@@ -10,7 +10,6 @@ import gleam/json
 import gleam/list
 import gleam/map.{Map}
 import gleam/int
-import gleam/io
 
 pub type Entry {
   Entry(
@@ -89,6 +88,7 @@ pub fn main() {
     entries
     |> list.flat_map(get)
     |> iterator.from_list
+    |> iterator.filter(fn(x) { x != "" })
     |> iterator.group(fn(x) { x })
     |> map.map_values(fn(_, xs) { list.length(xs) })
     |> map.to_list
@@ -103,12 +103,25 @@ pub fn main() {
   let merchandise = count(fn(e) { e.merchandise })
   let languages = count(fn(e) { e.languages })
 
-  list.map(entries, fn(e) { e.anything_else })
-  |> list.filter(fn(x) { x != "" })
-  |> list.map(fn(x) {
-    io.println("")
-    io.println(x)
-  })
+  let anything_else = count(fn(e) { [e.anything_else] })
+  let company_size = count(fn(e) { [e.company_size] })
+  let country = count(fn(e) { [e.country] })
+  let duration_using_gleam = count(fn(e) { [e.duration_using_gleam] })
+  let first_heard_about_gleam = count(fn(e) { [e.first_heard_about_gleam] })
+  let gender = count(fn(e) { [e.gender] })
+  let gleam_future_additions = count(fn(e) { [e.gleam_future_additions] })
+  let gleam_usage = count(fn(e) { [e.gleam_usage] })
+  let industry = count(fn(e) { [e.industry] })
+  let inserted_at = count(fn(e) { [e.inserted_at] })
+  let professional_programming_experience =
+    count(fn(e) { [e.professional_programming_experience] })
+  let programming_experience = count(fn(e) { [e.programming_experience] })
+  let role = count(fn(e) { [e.role] })
+  let sexual_orientation = count(fn(e) { [e.sexual_orientation] })
+  let source = count(fn(e) { [e.source] })
+  let transgender = count(fn(e) { [e.transgender] })
+  let why_do_you_like_gleam = count(fn(e) { [e.why_do_you_like_gleam] })
+  let age = count(fn(e) { [e.age] })
 
   let countjson = fn(collection: List(#(String, Int))) {
     json.object(list.map(collection, fn(x) { #(x.0, json.int(x.1)) }))
@@ -124,29 +137,32 @@ pub fn main() {
       #("news_sources", countjson(news_sources)),
       #("merchandise", countjson(merchandise)),
       #("languages", countjson(languages)),
+      #("anything_else", countjson(anything_else)),
+      #("company_size", countjson(company_size)),
+      #("country", countjson(country)),
+      #("duration_using_gleam", countjson(duration_using_gleam)),
+      #("first_heard_about_gleam", countjson(first_heard_about_gleam)),
+      #("gender", countjson(gender)),
+      #("gleam_future_additions", countjson(gleam_future_additions)),
+      #("gleam_usage", countjson(gleam_usage)),
+      #("industry", countjson(industry)),
+      #("inserted_at", countjson(inserted_at)),
+      #(
+        "professional_programming_experience",
+        countjson(professional_programming_experience),
+      ),
+      #("programming_experience", countjson(programming_experience)),
+      #("role", countjson(role)),
+      #("sexual_orientation", countjson(sexual_orientation)),
+      #("source", countjson(source)),
+      #("transgender", countjson(transgender)),
+      #("why_do_you_like_gleam", countjson(why_do_you_like_gleam)),
+      #("age", countjson(age)),
     ])
 
   let json = json.object([#("groups", groups), #("entries", entries)])
 
   assert Ok(_) = file.write(json.to_string(json), "2022-processed.json")
-  // anything_else: String,
-  // company_size: String,
-  // country: String,
-  // duration_using_gleam: String,
-  // first_heard_about_gleam: String,
-  // gender: String,
-  // gleam_future_additions: String,
-  // gleam_usage: String,
-  // industry: String,
-  // inserted_at: String,
-  // professional_programming_experience: String,
-  // programming_experience: String,
-  // role: String,
-  // sexual_orientation: String,
-  // source: String,
-  // transgender: String,
-  // why_do_you_like_gleam: String,
-  // age: Map(String, Int),
 }
 
 pub fn parse_jsonl(jsonl: String) {
