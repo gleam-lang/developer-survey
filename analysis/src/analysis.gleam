@@ -2,12 +2,14 @@
 //// Enjoy!
 
 import gleam/erlang/file
+import gleam/iterator
 import gleam/dynamic
 import gleam/string
 import gleam/result
 import gleam/json
 import gleam/list
 import gleam/map.{Map}
+import gleam/int
 import gleam/io
 
 pub type Entry {
@@ -48,7 +50,44 @@ pub fn main() {
   assert Ok(contents) = file.read("2022.jsonl")
   assert Ok(entries) = parse_jsonl(contents)
   let entries = list.map(entries, normalise_entry)
-  list.map(entries, io.debug)
+
+  let count = fn(get: fn(Entry) -> List(String)) -> List(#(String, Int)) {
+    entries
+    |> list.flat_map(get)
+    |> iterator.from_list
+    |> iterator.group(fn(x) { x })
+    |> map.map_values(fn(_, xs) { list.length(xs) })
+    |> map.to_list
+    |> list.sort(fn(x, y) { int.compare(x.1, y.1) })
+    |> list.reverse
+  }
+
+  let _production_os_counts = count(fn(e) { e.production_os })
+  let _development_os_counts = count(fn(e) { e.development_os })
+  let _targets = count(fn(e) { e.targets })
+  let _news_sources = count(fn(e) { e.news_sources })
+  let _merchandise = count(fn(e) { e.merchandise })
+  let _languages = count(fn(e) { e.languages })
+  // anything_else: String,
+  // company_size: String,
+  // country: String,
+  // duration_using_gleam: String,
+  // first_heard_about_gleam: String,
+  // gender: String,
+  // gleam_future_additions: String,
+  // gleam_usage: String,
+  // id: String,
+  // industry: String,
+  // inserted_at: String,
+  // ip: String,
+  // professional_programming_experience: String,
+  // programming_experience: String,
+  // role: String,
+  // sexual_orientation: String,
+  // source: String,
+  // transgender: String,
+  // why_do_you_like_gleam: String,
+  // age: Map(String, Int),
 }
 
 pub fn parse_jsonl(jsonl: String) {
@@ -58,19 +97,162 @@ pub fn parse_jsonl(jsonl: String) {
   |> list.try_map(json.decode(_, dynamic.map(dynamic.string, dynamic.string)))
 }
 
+fn normalise_merchandise(choice: String) -> List(String) {
+  case choice {
+    "T-shirts" -> ["T-shirts"]
+    "Stickers" -> ["Stickers"]
+    "Hoodies" -> ["Hoodies"]
+    "Mugs" -> ["Mugs"]
+    "Enamel pins" -> ["Enamel pins"]
+    "Earings" -> ["Earings"]
+    "Notepads" -> ["Notepads"]
+    "Leggings" -> ["Leggings"]
+    "socks" -> ["Socks"]
+    "programming socks and a butt plug. it would be funny and I'd buy it. not trolling." -> [
+      "Socks", "Butt plugs",
+    ]
+    "programming socks" -> ["Socks"]
+    "hats" -> ["Hats"]
+    "Temp tattoo" -> ["Temporary tattoos"]
+    "Sweat pants with gleam on the butt" -> ["Sweat pants"]
+    "Lucy Plush!" -> ["Plushies"]
+    "None" | "" -> []
+  }
+}
+
+fn normalise_news_source(source: String) -> List(String) {
+  let contains_lobsters = string.contains(string.lowercase(source), "lobste")
+  case source {
+    "GitHub discussions" | "Watching the Gleam repo and reading release notes" -> [
+      "GitHub",
+    ]
+
+    "gleam.run" | "RSS feed" | "gleam.run ...?" | "The website." | "Gleam website" | "The official homepage always has news about the lang changelov" -> [
+      "gleam.run",
+    ]
+
+    "See it in passing on news.ycombinator.com and elixirforum.com" -> [
+      "Hacker News", "Elixir Forum",
+    ]
+
+    "Occassional mentions on Mastodon or Lobste.rs or Hacker News" -> [
+      "Hacker News", "Fediverse", "lobste.rs",
+    ]
+
+    "Elixirforum" | "elixirforum.com" -> ["Elixir Forum"]
+    "erlangforums.com" -> ["Erlang Forums"]
+
+    "news.ycombinator.com" | "Hacker News" | "HackerNews" -> ["Hacker News"]
+
+    "Elm Slack" -> ["Elm Slack"]
+
+    "elixir reddit" -> ["/r/elixir"]
+    "r/programming" -> ["/r/programming"]
+    "/r/programming or /r/elixir" -> ["/r/programming", "/r/elixir"]
+
+    "The Gleam Discord server" -> ["The Gleam Discord Server"]
+    "@gleamlang on Twitter" -> ["@gleamlang on Twitter"]
+    "@louispilfold on Twitter" -> ["@louispilfold on Twitter"]
+    "/r/gleamlang" -> ["/r/gleamlang"]
+
+    "Louis" | "I'd just message Louis if I had a question" -> []
+
+    _ if contains_lobsters -> ["lobste.rs"]
+  }
+}
+
+fn normalise_target(target: String) -> List(String) {
+  case target {
+    "Erlang" -> ["Erlang"]
+    "JavaScript" -> ["JavaScript"]
+  }
+}
+
+fn normalise_os(os: String) -> List(String) {
+  case os {
+    "Embedded RTOS" | "Various RTOS and bare metal targets" -> ["Embedded RTOS"]
+    "Containers / Kubernetes" | "WSL" -> ["Linux"]
+    "illumos" | "Illumos" -> ["Illumos"]
+    "Linux" -> ["Linux"]
+    "macOS" -> ["macOS"]
+    "Windows" -> ["Windows"]
+    "iOS" -> ["iOS"]
+    "Android" -> ["Android"]
+    "FreeBSD" -> ["FreeBSD"]
+    "OpenBSD" -> ["OpenBSD"]
+    "I don't deploy to servers" -> []
+  }
+}
+
+fn normalise_languages(language: String) -> List(String) {
+  case language {
+    "Ada" -> ["Ada"]
+    "BQN" -> ["BQN"]
+    "Bash" -> ["Bash"]
+    "C" -> ["C"]
+    "C#" -> ["C#"]
+    "C++" -> ["C++"]
+    "CSS" -> ["CSS"]
+    "Clojure" -> ["Clojure"]
+    "Crystal" -> ["Crystal"]
+    "Dart" -> ["Dart"]
+    "Elixir" -> ["Elixir"]
+    "Elm" -> ["Elm"]
+    "Erlang" -> ["Erlang"]
+    "longtime F# hacker" | "F#" | "Fsharp" -> ["F#"]
+    "GDScript" -> ["GDScript"]
+    "Gleam!" | "Gleam" -> []
+    "Go" -> ["Go"]
+    "HTML" -> ["HTML"]
+    "Haskell" -> ["Haskell"]
+    "Jakt" -> ["Jakt"]
+    "Java" -> ["Java"]
+    "JavaScript" -> ["JavaScript"]
+    "Julia" -> ["Julia"]
+    "Kotlin" -> ["Kotlin"]
+    "Lean" -> ["Lean"]
+    "Lisp" -> ["Lisp"]
+    "Mercury" -> ["Mercury"]
+    "Nix" -> ["Nix"]
+    "Nushell" -> ["Nushell"]
+    "OCaml" -> ["OCaml"]
+    "PHP" -> ["PHP"]
+    "Perl" -> ["Perl"]
+    "Prolog" -> ["Prolog"]
+    "PureScript" -> ["PureScript"]
+    "Python" -> ["Python"]
+    "Racket" -> ["Racket"]
+    "ReScript" -> ["ReScript"]
+    "Ren" -> ["Ren"]
+    "Rescript" -> ["Rescript"]
+    "Ruby" -> ["Ruby"]
+    "Rust" -> ["Rust"]
+    "SML" -> ["SML"]
+    "SQL" -> ["SQL"]
+    "Scala" -> ["Scala"]
+    "Shell" -> ["Shell"]
+    "Swift" -> ["Swift"]
+    "TypeScript" -> ["TypeScript"]
+    "Zig" -> ["Zig"]
+    "sh" -> ["sh"]
+  }
+}
+
 fn normalise_entry(entry: JsonMap) {
-  let #(entry, langauges) = pop_options(entry, "languages_used")
-  let #(entry, news_sources) = pop_options(entry, "news_sources_used")
+  let #(entry, langauges) =
+    pop_options(entry, "languages_used", normalise_languages)
+  let #(entry, news_sources) =
+    pop_options(entry, "news_sources_used", normalise_news_source)
   let #(entry, production_os) =
-    pop_options(entry, "production_operating_system")
+    pop_options(entry, "production_operating_system", normalise_os)
   let #(entry, development_os) =
-    pop_options(entry, "development_operating_system")
-  let #(entry, targets) = pop_options(entry, "targets_used")
-  let #(entry, merchandise) = pop_options(entry, "merchandise")
+    pop_options(entry, "development_operating_system", normalise_os)
+  let #(entry, targets) = pop_options(entry, "targets_used", normalise_target)
+  let #(entry, merchandise) =
+    pop_options(entry, "merchandise", normalise_merchandise)
 
   let get = fn(key) { result.unwrap(map.get(entry, key), "") }
 
-  // io.debug(langauges)
   Entry(
     production_os: production_os,
     development_os: development_os,
@@ -103,7 +285,11 @@ fn normalise_entry(entry: JsonMap) {
   )
 }
 
-pub fn pop_options(data: JsonMap, prefix: String) -> #(JsonMap, List(String)) {
+pub fn pop_options(
+  data: JsonMap,
+  prefix: String,
+  normalise: fn(String) -> List(String),
+) -> #(JsonMap, List(String)) {
   let keys =
     data
     |> map.keys
@@ -131,7 +317,9 @@ pub fn pop_options(data: JsonMap, prefix: String) -> #(JsonMap, List(String)) {
     |> map.keys
     |> list.map(fn(x) { string.replace(x, prefix <> "[", "") })
     |> list.map(fn(x) { string.replace(x, "]", "") })
+    |> list.flat_map(normalise)
     |> list.sort(string.compare)
+    |> list.unique
 
   let rest = map.drop(data, keys)
   #(rest, entries)
