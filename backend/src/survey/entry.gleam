@@ -15,7 +15,6 @@ pub fn save(
   let id = nanoid.generate()
   let json =
     answers
-    |> list.filter(fn(pair) { pair.0 != "ip" || pair.0 != "id" })
     |> list.map(fn(pair) { #(pair.0, json.string(pair.1)) })
     |> list.key_set("id", json.string(id))
     |> list.key_set("ip", json.string(ip))
