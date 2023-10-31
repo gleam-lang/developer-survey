@@ -3,14 +3,14 @@ import gleam/string
 import survey/entry
 
 pub fn saving_test() {
-  assert Ok(_) = entry.ensure_data_directory_exists()
-  assert Ok(_) = file.recursive_delete("data")
+  let assert Ok(_) = entry.ensure_data_directory_exists()
+  let assert Ok(_) = file.recursive_delete("data")
 
-  assert Ok(_) =
+  let assert Ok(_) =
     entry.save("127.0.0.1", [#("name", "Lucy"), #("magic", "true")])
 
-  assert Ok(json) = entry.list_json()
-  assert True =
+  let assert Ok(json) = entry.list_json()
+  let assert True =
     string.contains(json, "\"name\":\"Lucy\",\"magic\":\"true\",\"id\":\"")
-  assert True = string.contains(json, "\"inserted_at\":\"")
+  let assert True = string.contains(json, "\"inserted_at\":\"")
 }
