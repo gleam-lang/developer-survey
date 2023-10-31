@@ -15,6 +15,9 @@ gleam_http = "~> 3.1"
 mist = "~> 0.9"
 gleam_erlang = "~> 0.17"
 gleam_json = "~> 0.5"
+wisp = "~> 0.6"
+ids = "~> 0.10"
+simplifile = "~> 0.1"
 
 [dev-dependencies]
 gleeunit = "~> 0.10"
