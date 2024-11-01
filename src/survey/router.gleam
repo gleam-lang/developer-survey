@@ -161,30 +161,44 @@ const html_form = html_head
     <button type='button' data-add-another-input>Add another</button>
   </fieldset>
 
-  <fieldset class='columns'>
+  <fieldset>
     <legend>What operating systems do you use in development?</legend>
-    <label><input type='checkbox' name='development-os' value='Android'>Android</label>
-    <label><input type='checkbox' name='development-os' value='FreeBSD'>FreeBSD</label>
-    <label><input type='checkbox' name='development-os' value='Linux'>Linux</label>
-    <label><input type='checkbox' name='development-os' value='OpenBSD'>OpenBSD</label>
-    <label><input type='checkbox' name='development-os' value='Windows'>Windows</label>
-    <label><input type='checkbox' name='development-os' value='iOS'>iOS</label>
-    <label><input type='checkbox' name='development-os' value='macOS'>macOS</label>
-  </fieldset>
-
-  <fieldset class='columns'>
-    <legend>What operating systems do you use in production?</legend>
-    <label><input type='checkbox' name='production-os' value='Android'>Android</label>
-    <label><input type='checkbox' name='production-os' value='FreeBSD'>FreeBSD</label>
-    <label><input type='checkbox' name='production-os' value='Linux'>Linux</label>
-    <label><input type='checkbox' name='production-os' value='OpenBSD'>OpenBSD</label>
-    <label><input type='checkbox' name='production-os' value='Windows'>Windows</label>
-    <label><input type='checkbox' name='production-os' value='iOS'>iOS</label>
-    <label><input type='checkbox' name='production-os' value='macOS'>macOS</label>
+    <div class='columns'>
+      <label><input type='checkbox' name='development-os' value='Android'>Android</label>
+      <label><input type='checkbox' name='development-os' value='FreeBSD'>FreeBSD</label>
+      <label><input type='checkbox' name='development-os' value='Linux'>Linux</label>
+      <label><input type='checkbox' name='development-os' value='OpenBSD'>OpenBSD</label>
+      <label><input type='checkbox' name='development-os' value='Windows'>Windows</label>
+      <label><input type='checkbox' name='development-os' value='iOS'>iOS</label>
+      <label><input type='checkbox' name='development-os' value='macOS'>macOS</label>
+      <label><input type='checkbox' data-other-option='development-os'>Other</label>
+    </div>
+    <div data-show-if='[data-other-option=development-os]:checked'>
+      <input type='text' name='development-os'>
+      <button type='button' data-add-another-input>Add another</button>
+    </div>
   </fieldset>
 
   <fieldset>
-    <legend>Have you used Gleam at all?</legend>
+    <legend>What operating systems do you use in production?</legend>
+    <div class='columns'>
+      <label><input type='checkbox' name='production-os' value='Android'>Android</label>
+      <label><input type='checkbox' name='production-os' value='FreeBSD'>FreeBSD</label>
+      <label><input type='checkbox' name='production-os' value='Linux'>Linux</label>
+      <label><input type='checkbox' name='production-os' value='OpenBSD'>OpenBSD</label>
+      <label><input type='checkbox' name='production-os' value='Windows'>Windows</label>
+      <label><input type='checkbox' name='production-os' value='iOS'>iOS</label>
+      <label><input type='checkbox' name='production-os' value='macOS'>macOS</label>
+      <label><input type='checkbox' data-other-option='production-os'>Other</label>
+    </div>
+    <div data-show-if='[data-other-option=production-os]:checked'>
+      <input type='text' name='production-os'>
+      <button type='button' data-add-another-input>Add another</button>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Have you used Gleam?</legend>
     <label><input type='radio' name='gleam-user' value='true'>Yes</label>
     <label><input type='radio' name='gleam-user' value='false'>No</label>
   </fieldset>
@@ -210,13 +224,20 @@ const html_form = html_head
 
     <fieldset class='columns'>
       <legend>What runtimes do you use?</legend>
-      <label><input type='checkbox' name='runtimes' value='beam'>BEAM Erlang VM</label>
-      <label><input type='checkbox' name='runtimes' value='atomvm'>AtomVM</label>
-      <label><input type='checkbox' name='runtimes' value='web-browsers'>Web browsers</label>
-      <label><input type='checkbox' name='runtimes' value='nodejs'>NodeJS</label>
-      <label><input type='checkbox' name='runtimes' value='deno'>Deno</label>
-      <label><input type='checkbox' name='runtimes' value='bun'>Bun</label>
-      <label><input type='checkbox' name='runtimes' value='unsure'>Unsure</label>
+      <div class='columns'>
+        <label><input type='checkbox' name='runtimes' value='beam'>BEAM Erlang VM</label>
+        <label><input type='checkbox' name='runtimes' value='atomvm'>AtomVM</label>
+        <label><input type='checkbox' name='runtimes' value='web-browsers'>Web browsers</label>
+        <label><input type='checkbox' name='runtimes' value='nodejs'>NodeJS</label>
+        <label><input type='checkbox' name='runtimes' value='deno'>Deno</label>
+        <label><input type='checkbox' name='runtimes' value='bun'>Bun</label>
+        <label><input type='checkbox' name='runtimes' value='unsure'>Unsure</label>
+        <label><input type='checkbox' data-other-option='runtimes'>Other</label>
+      </div>
+      <div data-show-if='[data-other-option=runtimes]:checked'>
+        <input type='text' name='production-os'>
+        <button type='button' data-add-another-input>Add another</button>
+      </div>
     </fieldset>
 
     <fieldset>
