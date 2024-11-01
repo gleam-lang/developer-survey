@@ -96,17 +96,21 @@ const html_head = "
   <meta name='viewport' content='width=device-width'>
   <link rel='shortcut icon' href='https://gleam.run/images/lucy/lucy.svg'>
   <title>Developer Survey 2022 Results – Gleam</title>
-  <style>
-"
+  <style>"
   <> css
-  <> "
-  </style>
+  <> "</style>
 </head>
 <body>
+  <img src='https://gleam.run/images/lucy/lucy.svg'>
   <h1>Gleam Developer Survey 2024</h1>
 "
 
 const html_foot = "
+  <footer>
+    This website is written in Gleam.
+    <a href='https://github.com/gleam-lang/developer-survey'>View the source
+    code</a>.
+  </footer>
 </body>
 </html>
 "
@@ -180,7 +184,7 @@ const html_form = html_head
   </fieldset>
 
   <fieldset>
-    <legend>Have you used Gleam?</legend>
+    <legend>Have you used Gleam at all?</legend>
     <label><input type='radio' name='gleam-user' value='true'>Yes</label>
     <label><input type='radio' name='gleam-user' value='false'>No</label>
   </fieldset>
@@ -673,42 +677,15 @@ const css = "
 :root {
   --font-family-normal: 'Outfit', sans-serif;
   --font-family-title: 'Lexend', sans-serif;
-
-  --color-charcoal: #2f2f2f;
   --color-underwater-blue: #292d3e;
-  --color-black: #1e1e1e;
-  --color-blacker: #151515;
   --color-white: #fefefc;
   --color-faff-pink: #ffaff3;
-  --color-aged-plastic-yellow: #fffbe8;
-  --color-unnamed-blue: #a6f0fc;
-  --color-unexpected-aubergine: #584355;
-
-  --color-code-blue: #9ce7ff;
-  --color-code-green: #c8ffa7;
-  --color-code-grey: #d4d4d4;
-  --color-code-dark-grey: #848484;
-  --color-code-yellow: #fdffab;
-  --color-code-pink: var(--color-faff-pink);
-  --color-code-red: #ff6262;
-  --color-code-orange: #ffd596;
-  --color-code-light-pink: #ffddfa;
-
-  --opacity-mid: 0.65;
-
   --width-content: 640px;
-
   --font-size-normal: 18px;
-
-  --font-weight-normal: 400;
-  --font-weight-title-bold: 700;
-
   --gap-1: 10px;
   --gap-2: calc(var(--gap-1) * 2);
   --gap-3: calc(var(--gap-1) * 3);
   --gap-4: calc(var(--gap-1) * 4);
-  --gap-5: calc(var(--gap-1) * 5);
-  --gap-6: calc(var(--gap-1) * 6);
 }
 
 *, *::before, *::after {
@@ -818,5 +795,16 @@ h1 {
 
 form {
   margin: var(--gap-4) 0;
+}
+
+footer {
+  margin-top: var(--gap-4);
+  text-align: center;
+  font-size: 80%;
+}
+
+img {
+  margin: 0 auto;
+  max-width: 200px;
 }
 "
