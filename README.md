@@ -1,15 +1,24 @@
-# The Gleam Developer Survey
+# survey
 
-- `backend`: A Gleam server that runs on the Erlang VM.
-- `frontend`: A Gleam SPA that runs in the browser.
+[![Package Version](https://img.shields.io/hexpm/v/survey)](https://hex.pm/packages/survey)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/survey/)
 
 ```sh
-# Start the frontend
-cd frontend
-npm install
-npm start
+gleam add survey@1
+```
+```gleam
+import survey
 
-# Start the backend
-cd backend
-gleam run
+pub fn main() {
+  // TODO: An example of the project in use
+}
+```
+
+Further documentation can be found at <https://hexdocs.pm/survey>.
+
+## Development
+
+```sh
+gleam run   # Run the project
+gleam test  # Run the tests
 ```

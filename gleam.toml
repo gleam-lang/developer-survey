@@ -1,0 +1,28 @@
+name = "survey"
+version = "1.0.0"
+
+# Fill out these fields if you intend to generate HTML documentation or publish
+# your project to the Hex package manager.
+#
+# description = ""
+# licences = ["Apache-2.0"]
+# repository = { type = "github", user = "", repo = "" }
+# links = [{ title = "Website", href = "" }]
+#
+# For a full reference of all the available options, you can have a look at
+# https://gleam.run/writing-gleam/gleam-toml/.
+
+[dependencies]
+gleam_stdlib = ">= 0.34.0 and < 2.0.0"
+wisp = ">= 1.2.0 and < 2.0.0"
+gleam_http = ">= 3.7.0 and < 4.0.0"
+mist = ">= 3.0.0 and < 4.0.0"
+storail = ">= 1.0.0 and < 2.0.0"
+gleam_erlang = ">= 0.28.0 and < 1.0.0"
+gtempo = ">= 5.0.2 and < 6.0.0"
+youid = ">= 1.2.0 and < 2.0.0"
+decode = ">= 0.4.1 and < 1.0.0"
+gleam_json = ">= 2.0.0 and < 3.0.0"
+
+[dev-dependencies]
+gleeunit = ">= 1.0.0 and < 2.0.0"

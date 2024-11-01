@@ -1,8 +1,0 @@
-!*/.keep
-**/*.jsonl
-**/*.json
-*.beam
-*.ez
-build
-data
-erl_crash.dump
