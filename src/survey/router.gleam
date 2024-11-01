@@ -45,6 +45,7 @@ pub fn handle_form_submission(req: Request) -> Response {
   let answers =
     formdata.values
     |> list.filter(fn(pair) { set.contains(names, pair.0) })
+    |> list.filter(fn(pair) { pair.1 != "" })
     |> list.group(fn(pair) { pair.0 })
     |> dict.to_list
     |> list.map(fn(pair) {
@@ -80,23 +81,12 @@ fn data_collection() {
 }
 
 const question_names = [
-  // Show if Gleam user
-  "gleam-experience", "gleam-open-source", "gleam-targets", "writing-libraries",
-  "writing-applications", "gleam-runtimes",
-  // Show if Gleam prod user
-  "gleam-in-production", "company-name",
-  // Always show
-  "programming-experience", "languages-other-than-gleam", "gleam-news-sources",
-  "country", "gleam-likes", "gleam-dislikes", "job-title", "job-industry",
-  "job-company-size", "production-os", "development-os", "anything-else",
+  "gleam-user", "gleam-experience", "gleam-open-source", "targets",
+  "writing-libraries", "writing-applications", "runtimes", "gleam-in-production",
+  "company-name", "professional-experience", "other-languages", "news-sources",
+  "country", "likes", "improvements", "job-role", "company-size",
+  "production-os", "development-os", "anything-else",
 ]
-
-// "gleam-experience", 
-// "writing-libraries", "writing-applications", "gleam-runtimes",
-// // Always show
-// "programming-experience", "languages-other-than-gleam",
-// "gleam-news-sources", "country", "gleam-likes", "gleam-dislikes", "job-title",
-// "job-industry", "job-company-size", "production-os", "development-os",
 
 const survey_html = "
 <!doctype html>
@@ -111,29 +101,96 @@ const survey_html = "
 <body>
   <form method='post'>
     <fieldset>
-      <legend>What country are you from?</legend>
+      <legend>What country do you live in?</legend>
       <input type='text' list='countries' name='country'>
     </fieldset>
 
     <fieldset>
-      <legend>Do you use Gleam?</legend>
+      <legend>What's your job role?</legend>
+      <input type='text' list='job-roles' name='job-role'>
+    </fieldset>
+
+    <fieldset>
+      <legend>How many years of professional programming experience do you have?</legend>
+      <input name='professional-experience' type='number' min=0 max=70>
+    </fieldset>
+
+    <fieldset>
+      <legend>How large is your company?</legend>
+      <select name='company-size'>
+        <option></option>
+        <option>1 to 10 employees</option>
+        <option>11 to 50 employees</option>
+        <option>50 to 100 employees</option>
+        <option>100 to 500 employees</option>
+        <option>500 to 2000 employees</option>
+        <option>More than 2000 employees </option>
+      </select>
+    </fieldset>
+
+    <fieldset>
+      <legend>What other languages do you use?</legend>
+      <input type='text' list='languages' name='other-languages'>
+      <button type='button' data-add-another-input>Add another</button>
+    </fieldset>
+
+    <fieldset>
+      <legend>What operating systems do you use in development?</legend>
+      <label><input type='checkbox' name='development-os' value='Android'>Android</label>
+      <label><input type='checkbox' name='development-os' value='FreeBSD'>FreeBSD</label>
+      <label><input type='checkbox' name='development-os' value='Linux'>Linux</label>
+      <label><input type='checkbox' name='development-os' value='OpenBSD'>OpenBSD</label>
+      <label><input type='checkbox' name='development-os' value='Windows'>Windows</label>
+      <label><input type='checkbox' name='development-os' value='iOS'>iOS</label>
+      <label><input type='checkbox' name='development-os' value='macOS'>macOS</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>What operating systems do you use in production?</legend>
+      <label><input type='checkbox' name='production-os' value='Android'>Android</label>
+      <label><input type='checkbox' name='production-os' value='FreeBSD'>FreeBSD</label>
+      <label><input type='checkbox' name='production-os' value='Linux'>Linux</label>
+      <label><input type='checkbox' name='production-os' value='OpenBSD'>OpenBSD</label>
+      <label><input type='checkbox' name='production-os' value='Windows'>Windows</label>
+      <label><input type='checkbox' name='production-os' value='iOS'>iOS</label>
+      <label><input type='checkbox' name='production-os' value='macOS'>macOS</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Have you used Gleam?</legend>
       <label><input type='radio' name='gleam-user' value='true'>Yes</label>
       <label><input type='radio' name='gleam-user' value='false'>No</label>
     </fieldset>
 
-    <section data-show-if='gleam-user=true'>
+    <section data-show-if='[name=gleam-user][value=true]:checked'>
       <fieldset>
-        <legend>Do you use Gleam in production?</legend>
-        <label><input type='radio' name='gleam-in-production' value='true'>Yes</label>
-        <label><input type='radio' name='gleam-in-production' value='false'>No</label>
+        <legend>How many years of Gleam programming experience do you have?</legend>
+        <input name='gleam-experience' type='number' min=0 max=8>
       </fieldset>
 
-      <section data-show-if='gleam-in-production=true'>
-        <fieldset>
-          <legend>What is your company name?</legend>
-          <input type='text' name='company-name'>
-        </fieldset>
-      </section>
+      <fieldset>
+        <legend>What Gleam compilation targets do you use?</legend>
+        <label><input type='checkbox' name='targets' value='erlang'>Erlang</label>
+        <label><input type='checkbox' name='targets' value='javascript'>JavaScript</label>
+        <label><input type='checkbox' name='targets' value='unsure'>Unsure</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>What do you write in Gleam?</legend>
+        <label><input type='checkbox' name='projects' value='applications'>Applications</label>
+        <label><input type='checkbox' name='projects' value='libraries'>Libraries</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>What runtimes do you use?</legend>
+        <label><input type='checkbox' name='runtimes' value='beam'>BEAM Erlang VM</label>
+        <label><input type='checkbox' name='runtimes' value='atomvm'>AtomVM</label>
+        <label><input type='checkbox' name='runtimes' value='web-browsers'>Web browsers</label>
+        <label><input type='checkbox' name='runtimes' value='nodejs'>NodeJS</label>
+        <label><input type='checkbox' name='runtimes' value='deno'>Deno</label>
+        <label><input type='checkbox' name='runtimes' value='bun'>Bun</label>
+        <label><input type='checkbox' name='runtimes' value='unsure'>Unsure</label>
+      </fieldset>
 
       <fieldset>
         <legend>Do you use Gleam for open source?</legend>
@@ -142,12 +199,34 @@ const survey_html = "
       </fieldset>
 
       <fieldset>
-        <legend>What Gleam compilation targets do you use?</legend>
-        <label><input type='checkbox' name='gleam-targets' value='erlang'>Erlang</label>
-        <label><input type='checkbox' name='gleam-targets' value='javascript'>JavaScript</label>
-        <label><input type='checkbox' name='gleam-targets' value='unsure'>Unsure</label>
+        <legend>Do you use Gleam in production?</legend>
+        <label><input type='radio' name='gleam-in-production' value='true'>Yes</label>
+        <label><input type='radio' name='gleam-in-production' value='false'>No</label>
       </fieldset>
+
+      <section data-show-if='[name=gleam-in-production][value=true]:checked'>
+        <fieldset>
+          <legend>What is your company name?</legend>
+          <input type='text' name='company-name'>
+        </fieldset>
+      </section>
     </section>
+
+    <fieldset>
+      <legend>Where do you get your Gleam news?</legend>
+      <input type='text' list='news-sources' name='news-sources'>
+      <button type='button' data-add-another-input>Add another</button>
+    </fieldset>
+
+    <fieldset>
+      <legend>What do you like about Gleam?</legend>
+      <textarea type='text' name='likes'></textarea>
+    </fieldset>
+
+    <fieldset>
+      <legend>What would you like see the Gleam team work on in 2025?</legend>
+      <textarea type='text' name='improvements'></textarea>
+    </fieldset>
 
     <fieldset>
       <legend>Anything else you'd like to say?</legend>
@@ -159,16 +238,23 @@ const survey_html = "
 
   <script type='module'>
     for (const element of document.querySelectorAll('[data-show-if]')) {
-      const [name, value] = element.dataset.showIf.split('=');
-      for (const input of document.querySelectorAll(`input[name='${name}']`)) {
-        const handle = () => {
-          if (input.checked) {
-            element.style.display = input.value === value ? 'block' : 'none';
-          }
-        };
-        input.addEventListener('change', handle);
-        handle();
-      }
+      const handle = () => {
+        if (document.querySelector(element.dataset.showIf)) {
+          element.style.display = 'block';
+        } else {
+          element.style.display = 'none';
+        }
+      };
+      element.closest('form').addEventListener('change', handle)
+      handle();
+    }
+
+    for (const element of document.querySelectorAll('[data-add-another-input]')) {
+      element.addEventListener('click', () => {
+        const newInput = element.previousElementSibling.cloneNode();
+        newInput.value = '';
+        element.parentElement.insertBefore(newInput, element);
+      });
     }
   </script>
 
@@ -480,6 +566,65 @@ const survey_html = "
     <option value='Zig'></option>
   </datalist>
 
+  <datalist id='news-sources'>
+    <option value='Bluesky'></option>
+    <option value='Elixir Forum'></option>
+    <option value='Erlang Forums'></option>
+    <option value='GitHub'></option>
+    <option value='Hacker News'></option>
+    <option value='The Fediverse'></option>
+    <option value='The Gleam Discord Server'></option>
+    <option value='Twitter'></option>
+    <option value='Twitter @gleamlang'></option>
+    <option value='Twitter @louispilfold'></option>
+    <option value='gleam.run'></option>
+    <option value='lobste.rs'></option>
+    <option value='reddit.com'></option>
+    <option value='reddit.com/r/elixir'></option>
+    <option value='reddit.com/r/gleamlang'></option>
+    <option value='reddit.com/r/gleamlang'></option>
+  </datalist>
+
+  <datalist id='job-roles'>
+    <option value='Agile Coach'></option>
+    <option value='CEO'></option>
+    <option value='CTO'></option>
+    <option value='Consultant'></option>
+    <option value='Data engineer'></option>
+    <option value='Developer Relations'></option>
+    <option value='Director of Engineering'></option>
+    <option value='Engineering Manager'></option>
+    <option value='Head of Engineering'></option>
+    <option value='Infrastructure engineer'></option>
+    <option value='Intern'></option>
+    <option value='Lecturer'></option>
+    <option value='Maker'></option>
+    <option value='Managing Director'></option>
+    <option value='Open Source Engineer'></option>
+    <option value='Other'></option>
+    <option value='Principal Engineer'></option>
+    <option value='Researcher'></option>
+    <option value='Scrum Master'></option>
+    <option value='Security Manager'></option>
+    <option value='Security engineer'></option>
+    <option value='Senior Software Engineer'></option>
+    <option value='Software Architect'></option>
+    <option value='Software Engineer'></option>
+    <option value='Staff Engineer'></option>
+    <option value='Start-up founder'></option>
+    <option value='Student'></option>
+    <option value='Teaching Assistant'></option>
+    <option value='Tech Lead'></option>
+  </datalist>
+
+  <datalist id='runtimes'>
+    <option value='AtomVM'></option>
+    <option value='BEAM (Erlang VM)'></option>
+    <option value='Bun'></option>
+    <option value='Deno'></option>
+    <option value='NodeJS'></option>
+    <option value='Web browsers'></option>
+  </datalist>
 </body>
 </html>
 "
