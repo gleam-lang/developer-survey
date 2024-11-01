@@ -1,8 +1,0 @@
-!*/.keep
-
-# Erlang and BEAM bits
-*.beam
-*.ez
-build
-erl_crash.dump
-data
