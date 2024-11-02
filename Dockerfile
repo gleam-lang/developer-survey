@@ -6,6 +6,9 @@ RUN cd /app && gleam export erlang-shipment
 FROM erlang:27.1.1.0-alpine
 COPY --from=build /app/build/erlang-shipment /app
 VOLUME /app/data
+LABEL org.opencontainers.image.source=https://github.com/gleam-lang/developer-survey
+LABEL org.opencontainers.image.description="Gleam Developer Survey web application"
+LABEL org.opencontainers.image.licenses=Apache-2.0
 WORKDIR /app
 ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["run"]
