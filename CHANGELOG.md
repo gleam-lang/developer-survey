@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.0 - 2024-11-02
+
+- The container image now runs the application with a new user and group.
+
 ## v1.2.0 - 2024-11-02
 
 - The tmp directory now is within the data directory.
