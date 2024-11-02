@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.2.0 - 2024-11-02
+
+- The tmp directory now is within the data directory.
+
 ## v1.1.1 - 2024-11-02
 
 - Fixed a CSS bug.

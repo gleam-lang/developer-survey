@@ -69,7 +69,7 @@ pub fn handle_form_submission(req: Request) -> Response {
 
 fn data_collection() {
   let config =
-    storail.Config(data_directory: "data", temporary_directory: "tmp")
+    storail.Config(data_directory: "data", temporary_directory: "data/tmp")
   storail.Collection(
     name: "submission",
     config:,
