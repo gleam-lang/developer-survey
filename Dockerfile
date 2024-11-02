@@ -4,6 +4,9 @@ COPY . /app/
 RUN cd /app && gleam export erlang-shipment
 
 FROM erlang:27.1.1.0-alpine
+RUN \
+  addgroup --system gleam_developer_survey && \
+  adduser --system gleam_developer_survey -g gleam_developer_survey   
 COPY --from=build /app/build/erlang-shipment /app
 VOLUME /app/data
 LABEL org.opencontainers.image.source=https://github.com/gleam-lang/developer-survey
