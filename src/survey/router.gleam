@@ -222,7 +222,7 @@ const html_form = html_head
       <label><input type='checkbox' name='projects' value='libraries'>Libraries</label>
     </fieldset>
 
-    <fieldset class='columns'>
+    <fieldset>
       <legend>What runtimes do you use?</legend>
       <div class='columns'>
         <label><input type='checkbox' name='runtimes' value='beam'>BEAM Erlang VM</label>
