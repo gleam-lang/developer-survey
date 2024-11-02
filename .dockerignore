@@ -1,0 +1,8 @@
+*.beam
+*.ez
+/build
+erl_crash.dump
+tmp
+data
+test
+README.md
