@@ -63,7 +63,7 @@ pub fn handle_form_submission(req: Request) -> Response {
     ])
 
   wisp.ok()
-  |> wisp.set_cookie(req, cookie_name, "🥰", wisp.PlainText, 60 * 60 * 24 * 90)
+  |> wisp.set_cookie(req, cookie_name, ":)", wisp.PlainText, 60 * 60 * 24 * 90)
   |> wisp.html_body(string_builder.from_string(html_thanks))
 }
 
