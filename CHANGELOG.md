@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.8.0 - 2024-11-04
+
+- Organisation sponsorship question only shows if you say you are in an
+  organisation.
+
 ## v1.7.0 - 2024-11-04
 
 - Changed "company" to "organisation".
