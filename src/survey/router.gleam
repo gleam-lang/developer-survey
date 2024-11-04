@@ -81,12 +81,12 @@ fn data_collection() {
 }
 
 const question_names = [
-  "individual-sponsor", "company-sponsor", "sponsor-motivation", "gleam-user",
-  "gleam-experience", "gleam-open-source", "targets", "writing-libraries",
-  "writing-applications", "runtimes", "gleam-in-production", "company-name",
-  "professional-experience", "other-languages", "news-sources", "country",
-  "likes", "improvements", "job-role", "company-size", "production-os",
-  "development-os", "anything-else",
+  "projects", "individual-sponsor", "company-sponsor", "sponsor-motivation",
+  "gleam-user", "gleam-experience", "gleam-open-source", "targets",
+  "writing-libraries", "writing-applications", "runtimes", "gleam-in-production",
+  "company-name", "professional-experience", "other-languages", "news-sources",
+  "country", "likes", "improvements", "job-role", "company-size",
+  "production-os", "development-os", "anything-else",
 ]
 
 const html_head = "

@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.6.1 - 2024-11-04
+
+- Fixed `projects` field not getting saved.
+
 ## v1.6.0 - 2024-11-04
 
 - The Cloudflare Tunnel `"cf-connecting-ip"` header is now used to get the
