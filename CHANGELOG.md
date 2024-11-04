@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.7.0 - Unreleased
+## v1.7.0 - 2024-11-04
 
 - Changed "company" to "organisation".
 - Fixed HTML title.
