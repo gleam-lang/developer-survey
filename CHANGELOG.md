@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.7.0 - Unreleased
+
+- Changed "company" to "organisation".
+- Fixed HTML title.
+- Fixed styling of selects on Safari.
+
 ## v1.6.1 - 2024-11-04
 
 - Fixed `projects` field not getting saved.

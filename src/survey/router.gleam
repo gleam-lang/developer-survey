@@ -81,12 +81,12 @@ fn data_collection() {
 }
 
 const question_names = [
-  "projects", "individual-sponsor", "company-sponsor", "sponsor-motivation",
+  "projects", "individual-sponsor", "organisation-sponsor", "sponsor-motivation",
   "gleam-user", "gleam-experience", "gleam-open-source", "targets",
   "writing-libraries", "writing-applications", "runtimes", "gleam-in-production",
-  "company-name", "professional-experience", "other-languages", "news-sources",
-  "country", "likes", "improvements", "job-role", "company-size",
-  "production-os", "development-os", "anything-else",
+  "organisation-name", "professional-experience", "other-languages",
+  "news-sources", "country", "likes", "improvements", "job-role",
+  "organisation-size", "production-os", "development-os", "anything-else",
 ]
 
 const html_head = "
@@ -96,7 +96,7 @@ const html_head = "
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width'>
   <link rel='shortcut icon' href='https://gleam.run/images/lucy/lucy.svg'>
-  <title>Developer Survey 2022 Results – Gleam</title>
+  <title>Developer Survey 2024</title>
   <style>"
   <> css
   <> "</style>
@@ -144,15 +144,16 @@ const html_form = html_head
   </fieldset>
 
   <fieldset>
-    <legend>How large is your company?</legend>
-    <select name='company-size'>
+    <legend>How large is your organisation?</legend>
+    <select name='organisation-size'>
       <option></option>
-      <option>1 to 10 employees</option>
-      <option>11 to 50 employees</option>
-      <option>50 to 100 employees</option>
-      <option>100 to 500 employees</option>
-      <option>500 to 2000 employees</option>
-      <option>More than 2000 employees </option>
+      <option>1 person</option>
+      <option>2 to 10 people</option>
+      <option>11 to 50 people</option>
+      <option>50 to 100 people</option>
+      <option>100 to 500 people</option>
+      <option>500 to 2000 people</option>
+      <option>More than 2000 people</option>
     </select>
   </fieldset>
 
@@ -255,8 +256,8 @@ const html_form = html_head
 
     <section data-show-if='[name=gleam-in-production][value=true]:checked'>
       <fieldset>
-        <legend>What is your company name?</legend>
-        <input type='text' name='company-name'>
+        <legend>What is your organisation's name?</legend>
+        <input type='text' name='organisation-name'>
       </fieldset>
     </section>
   </section>
@@ -282,15 +283,15 @@ const html_form = html_head
   </fieldset>
 
   <fieldset>
-    <legend>Does your company sponsor Gleam?</legend>
-    <label><input type='radio' name='company-sponsor' value='true'>Yes</label>
-    <label><input type='radio' name='company-sponsor' value='false'>No</label>
-    <p data-show-if='[name=company-sponsor][value=true]:checked'>
+    <legend>Does your organisation sponsor Gleam?</legend>
+    <label><input type='radio' name='organisation-sponsor' value='true'>Yes</label>
+    <label><input type='radio' name='organisation-sponsor' value='false'>No</label>
+    <p data-show-if='[name=organisation-sponsor][value=true]:checked'>
       Thank you so much! 💜
     </p>
   </fieldset>
 
-  <fieldset data-show-if='[name=individual-sponsor][value=false]:checked, [name=company-sponsor][value=false]:checked'>
+  <fieldset data-show-if='[name=individual-sponsor][value=false]:checked, [name=organisation-sponsor][value=false]:checked'>
     <legend>What might make you consider sponsoring?</legend>
     <textarea name='sponsor-motivation'></textarea>
   </fieldset>
@@ -663,7 +664,6 @@ document.querySelector('form').addEventListener('keypress', event => {
   <option value='reddit.com'></option>
   <option value='reddit.com/r/elixir'></option>
   <option value='reddit.com/r/gleamlang'></option>
-  <option value='reddit.com/r/gleamlang'></option>
 </datalist>
 
 <datalist id='job-roles'>
@@ -830,8 +830,13 @@ input:not([type='checkbox']):not([type='radio']) {
   display: block;
   width: 100%;
   margin: var(--gap-1) 0;
-  padding-left: var(--gap-1);
-  padding-right: var(--gap-1);
+  padding: 4px var(--gap-1);
+  border-radius: 1px;
+  border: none;
+}
+
+select {
+  appearance: none;
 }
 
 input[type='checkbox'],
