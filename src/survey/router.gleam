@@ -333,6 +333,10 @@ const html_form = html_head
       element.parentElement.insertBefore(newInput, element);
     });
   }
+
+document.querySelector('form').addEventListener('keypress', event => {
+  if (event.key === 'Enter') event.preventDefault();
+});
 </script>
 
 <datalist id='countries'>

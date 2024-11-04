@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.0 - 2024-11-04
+
+- "Enter" keypresses no longer submit the form, to avoid accidental submissions.
+
 ## v1.4.0 - 2024-11-04
 
 - Added sponsorship questions.
