@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.4.0 - 2024-11-04
+
+- Added sponsorship questions.
+- Added thank-you page.
+
 ## v1.3.0 - 2024-11-02
 
 - The container image now runs the application with a new user and group.

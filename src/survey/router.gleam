@@ -81,11 +81,12 @@ fn data_collection() {
 }
 
 const question_names = [
-  "gleam-user", "gleam-experience", "gleam-open-source", "targets",
-  "writing-libraries", "writing-applications", "runtimes", "gleam-in-production",
-  "company-name", "professional-experience", "other-languages", "news-sources",
-  "country", "likes", "improvements", "job-role", "company-size",
-  "production-os", "development-os", "anything-else",
+  "individual-sponsor", "company-sponsor", "sponsor-motivation", "gleam-user",
+  "gleam-experience", "gleam-open-source", "targets", "writing-libraries",
+  "writing-applications", "runtimes", "gleam-in-production", "company-name",
+  "professional-experience", "other-languages", "news-sources", "country",
+  "likes", "improvements", "job-role", "company-size", "production-os",
+  "development-os", "anything-else",
 ]
 
 const html_head = "
@@ -267,13 +268,41 @@ const html_form = html_head
   </fieldset>
 
   <fieldset>
+    <legend>Do you sponsor Gleam?</legend>
+    <label><input type='radio' name='individual-sponsor' value='true'>Yes</label>
+    <label><input type='radio' name='individual-sponsor' value='false'>No</label>
+    <p>
+      Gleam has no corporate owner or other funding source. I rely on the the
+      kind support of Gleam's sponsors to pay my bills and to support language
+      development.
+    </p>
+    <p data-show-if='[name=individual-sponsor][value=true]:checked'>
+      Thank you so much! 💜
+    </p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Does your company sponsor Gleam?</legend>
+    <label><input type='radio' name='company-sponsor' value='true'>Yes</label>
+    <label><input type='radio' name='company-sponsor' value='false'>No</label>
+    <p data-show-if='[name=company-sponsor][value=true]:checked'>
+      Thank you so much! 💜
+    </p>
+  </fieldset>
+
+  <fieldset data-show-if='[name=individual-sponsor][value=false]:checked, [name=company-sponsor][value=false]:checked'>
+    <legend>What might make you consider sponsoring?</legend>
+    <textarea name='sponsor-motivation'></textarea>
+  </fieldset>
+
+  <fieldset>
     <legend>What do you like about Gleam?</legend>
-    <textarea type='text' name='likes'></textarea>
+    <textarea name='likes'></textarea>
   </fieldset>
 
   <fieldset>
     <legend>What would you like see the Gleam team work on in 2025?</legend>
-    <textarea type='text' name='improvements'></textarea>
+    <textarea name='improvements'></textarea>
   </fieldset>
 
   <fieldset>
@@ -669,6 +698,13 @@ const html_form = html_head
 
 const html_thanks = html_head
   <> "
+<p>
+  Thank you! The results will be shared before the end of the year on <a
+  href='https://gleam.run/news/'>the Gleam website</a>.
+</p>
+<p>
+  Please share this survey with your Gleamy friends.
+</p>
 "
   <> html_foot
 
@@ -737,6 +773,7 @@ p, h1, h2, h3, h4, h5, h6 {
 
 p {
   text-wrap: pretty;
+  margin: 8 0;
 }
 h1, h2, h3, h4, h5, h6 {
   text-wrap: balance;
@@ -803,7 +840,7 @@ label {
 }
 
 legend {
-  font-weight: bold;
+  font-size: 110%;
 }
 
 .columns {
