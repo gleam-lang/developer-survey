@@ -119,11 +119,20 @@ const html_head = "
   <> "</style>
 </head>
 <body>
-  <img src='https://gleam.run/images/lucy/lucy.svg'>
-  <h1>Gleam Developer Survey 2024</h1>
+  <header>
+    <div class='hero'>
+      <div class='lucy-container'>
+        <img class='lucy' src='https://gleam.run/images/lucy/lucy.svg'>
+      </div>
+      <h1>Gleam Developer Survey 2024</h1>
+    </div>
+    <img class='waves' src='https://gleam.run/images/waves.svg'>
+  </header>
+  <main>
 "
 
 const html_foot = "
+  </main>
   <footer>
     This website is written in Gleam.
     <a href='https://github.com/gleam-lang/developer-survey'>View the source
@@ -755,9 +764,18 @@ const css = "
   --font-family-normal: 'Outfit', sans-serif;
   --font-family-title: 'Lexend', sans-serif;
   --color-underwater-blue: #292d3e;
+  --color-aged-plastic-yellow: #fffbe8;
   --color-white: #fefefc;
   --color-faff-pink: #ffaff3;
+  --color-blacker: #151515;
   --width-content: 640px;
+
+  --waves-height: 100px;
+  --waves-width: 1200px;
+
+  --font-weight-normal: 400;
+  --font-weight-title-bold: 700;
+
   --font-size-normal: 18px;
   --gap-1: 10px;
   --gap-2: calc(var(--gap-1) * 2);
@@ -778,9 +796,17 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+header {
+  width: 100%;
+  padding-top: var(--gap-2);
+  background-color: var(--color-aged-plastic-yellow);
+  color: var(--color-blacker);
+  text-align: center;
+  overflow: hidden;
+}
+
 img, picture, video, canvas, svg {
   display: block;
-  max-width: 100%;
 }
 
 input, button, textarea, select {
@@ -812,13 +838,29 @@ body {
   color: var(--color-white);
   font-family: var(--font-family-normal);
   font-size: var(--font-size-normal);
+}
+
+main {
   max-width: 100%;
   width: var(--width-content);
   margin: 0 auto;
   padding: var(--gap-2);
 }
 
-h1,
+.waves {
+  position: relative;
+  --overlap: 5px;
+  bottom: calc(var(--overlap) * -1);
+  height: var(--waves-height);
+  width: calc(max(100%, var(--waves-width)) + calc(var(--overlap) * 2));
+  left: min(0px, calc(calc(100vw - var(--waves-width)) * 0.2));
+}
+
+h1 {
+  font-family: var(--font-family-title);
+  font-weight: var(--font-weight-title-bold);
+}
+
 h2,
 h3,
 h4,
@@ -886,8 +928,21 @@ footer {
   font-size: 80%;
 }
 
-img {
-  margin: 0 auto;
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lucy {
+  margin: 0;
   max-width: 200px;
+  transition: transform 0.2s ease;
+}
+
+.lucy-container:hover .lucy {
+  content: url('https://gleam.run/images/lucy/lucyhappy.svg');
+  transform: rotate(23deg);
 }
 "
