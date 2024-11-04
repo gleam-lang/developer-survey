@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.9.0 - 2024-11-04
+
+- Added Gleam Weekly as a news source.
+
 ## v1.8.0 - 2024-11-04
 
 - Organisation sponsorship question only shows if you say you are in an
