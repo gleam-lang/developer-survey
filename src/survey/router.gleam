@@ -57,7 +57,7 @@ pub fn handle_form_submission(req: Request) -> Response {
     |> storail.key(id)
     |> storail.write([
       #("id", id),
-      #("ip", request.get_header(req, "x-forwarded-for") |> result.unwrap("")),
+      #("ip", request.get_header(req, "cf-connecting-ip") |> result.unwrap("")),
       #("inserted-at", datetime.now_utc() |> datetime.to_string),
       ..answers
     ])

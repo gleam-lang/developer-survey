@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.6.0 - 2024-11-04
+
+- The Cloudflare Tunnel `"cf-connecting-ip"` header is now used to get the
+  client IP address.
+
 ## v1.5.0 - 2024-11-04
 
 - "Enter" keypresses no longer submit the form, to avoid accidental submissions.
