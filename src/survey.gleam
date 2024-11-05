@@ -923,7 +923,7 @@ form {
 }
 
 footer {
-  margin-top: var(--gap-4);
+  margin: var(--gap-4) 0;
   text-align: center;
   font-size: 80%;
 }
