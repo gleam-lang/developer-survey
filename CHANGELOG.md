@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.12.0 - 2024-11-05
+
+- Improved wording.
+
 ## v1.11.0 - 2024-11-05
 
 - Use multi-imput for likes and improvements.

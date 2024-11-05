@@ -226,7 +226,7 @@ const html_form = html_head
   </fieldset>
 
   <fieldset>
-    <legend>Have you used Gleam?</legend>
+    <legend>Have you ever written Gleam code?</legend>
     <label><input type='radio' name='gleam-user' value='true'>Yes</label>
     <label><input type='radio' name='gleam-user' value='false'>No</label>
   </fieldset>
@@ -281,7 +281,7 @@ const html_form = html_head
     </fieldset>
 
     <fieldset data-show-if='[name=gleam-in-production][value=true]:checked'>
-      <legend>What is your organisation's name?</legend>
+      <legend>If this was at some organisation, what is the organisation's name?</legend>
       <input type='text' name='organisation-name'>
     </fieldset>
   </section>
