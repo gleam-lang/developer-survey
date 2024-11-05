@@ -361,9 +361,9 @@ const html_form = html_head
     });
   }
 
-document.querySelector('form').addEventListener('keypress', event => {
-  if (event.key === 'Enter') event.preventDefault();
-});
+  document.querySelector('form').addEventListener('keypress', event => {
+    if (event.key === 'Enter') event.preventDefault();
+  });
 </script>
 
 <datalist id='countries'>
