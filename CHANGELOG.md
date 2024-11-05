@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.13.0 - 2024-11-05
+
+- Add AWK language and Linkedin news source.
+
 ## v1.12.0 - 2024-11-05
 
 - Improved wording.

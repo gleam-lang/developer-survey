@@ -618,6 +618,7 @@ const html_form = html_head
 </datalist>
 
 <datalist id='languages'>
+  <option value='AWK'></option>
   <option value='Ada'></option>
   <option value='Apex'></option>
   <option value='Assembly'></option>
@@ -681,6 +682,7 @@ const html_form = html_head
   <option value='GitHub'></option>
   <option value='Gleam Weekly'></option>
   <option value='Hacker News'></option>
+  <option value='Linkedin'></option>
   <option value='The Fediverse'></option>
   <option value='The Gleam Discord Server'></option>
   <option value='Twitter @gleamlang'></option>
