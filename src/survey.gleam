@@ -113,7 +113,7 @@ const html_head = "
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width'>
   <link rel='shortcut icon' href='https://gleam.run/images/lucy/lucy.svg'>
-  <title>Developer Survey 2024</title>
+  <title>Gleam Developer Survey 2024</title>
   <style>"
   <> css
   <> "</style>
@@ -322,12 +322,14 @@ const html_form = html_head
 
   <fieldset>
     <legend>What do you like about Gleam?</legend>
-    <textarea name='likes'></textarea>
+    <input type='text' name='likes'>
+    <button type='button' data-add-another-input>Add another</button>
   </fieldset>
 
   <fieldset>
     <legend>What would you like see the Gleam team work on in 2025?</legend>
-    <textarea name='improvements'></textarea>
+    <input type='text' name='improvements'>
+    <button type='button' data-add-another-input>Add another</button>
   </fieldset>
 
   <fieldset>

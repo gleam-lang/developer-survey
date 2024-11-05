@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.11.0 - 2024-11-05
+
+- Use multi-imput for likes and improvements.
+- Add "Gleam" to page title.
+
 ## v1.10.0 - 2024-11-05
 
 - Added pretty header.
