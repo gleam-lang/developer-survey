@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.10.0 - 2024-11-05
+
+- Added pretty header.
+
 ## v1.9.0 - 2024-11-04
 
 - Added Gleam Weekly as a news source.
