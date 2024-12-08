@@ -9,7 +9,7 @@ import gleam/pair
 import gleam/result
 import gleam/set
 import gleam/string
-import gleam/string_builder
+import gleam/string_tree
 import mist
 import storail
 import tempo/datetime
@@ -51,7 +51,7 @@ pub fn show_form(req: Request) -> Response {
   }
 
   wisp.ok()
-  |> wisp.html_body(string_builder.from_string(html))
+  |> wisp.html_body(string_tree.from_string(html))
 }
 
 pub fn handle_form_submission(req: Request) -> Response {
@@ -81,7 +81,7 @@ pub fn handle_form_submission(req: Request) -> Response {
 
   wisp.ok()
   |> wisp.set_cookie(req, cookie_name, ":)", wisp.PlainText, 60 * 60 * 24 * 90)
-  |> wisp.html_body(string_builder.from_string(html_thanks))
+  |> wisp.html_body(string_tree.from_string(html_thanks))
 }
 
 fn data_collection() {
