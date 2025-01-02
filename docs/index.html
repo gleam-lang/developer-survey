@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang='en-gb'>
+<head>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width'>
+  <link rel='shortcut icon' href='https://gleam.run/images/lucy/lucy.svg'>
+  <title>Gleam Developer Survey 2024</title>
+  <style>
+@font-face {
+  font-family: 'Lexend';
+  font-display: swap;
+  font-weight: 400;
+  src: url('https://gleam.run/fonts/Lexend.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Lexend';
+  font-display: swap;
+  font-weight: 700;
+  src: url('https://gleam.run/fonts/Lexend-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Outfit';
+  font-display: swap;
+  src: url('https://gleam.run/fonts/Outfit.woff') format('woff');
+}
+
+:root {
+  --font-family-normal: 'Outfit', sans-serif;
+  --font-family-title: 'Lexend', sans-serif;
+  --color-underwater-blue: #292d3e;
+  --color-aged-plastic-yellow: #fffbe8;
+  --color-white: #fefefc;
+  --color-faff-pink: #ffaff3;
+  --color-blacker: #151515;
+  --width-content: 640px;
+
+  --waves-height: 100px;
+  --waves-width: 1200px;
+
+  --font-weight-normal: 400;
+  --font-weight-title-bold: 700;
+
+  --font-size-normal: 18px;
+  --gap-1: 10px;
+  --gap-2: calc(var(--gap-1) * 2);
+  --gap-3: calc(var(--gap-1) * 3);
+  --gap-4: calc(var(--gap-1) * 4);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+header {
+  width: 100%;
+  padding-top: var(--gap-2);
+  background-color: var(--color-aged-plastic-yellow);
+  color: var(--color-blacker);
+  text-align: center;
+  overflow: hidden;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+  margin: 8 0;
+}
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+#root, #__next {
+  isolation: isolate;
+}
+
+[data-show-if] {
+  display: none;
+}
+
+body {
+  background-color: var(--color-underwater-blue);
+  color: var(--color-white);
+  font-family: var(--font-family-normal);
+  font-size: var(--font-size-normal);
+}
+
+main {
+  max-width: 100%;
+  width: var(--width-content);
+  margin: 0 auto;
+  padding: var(--gap-2);
+}
+
+.waves {
+  position: relative;
+  --overlap: 5px;
+  bottom: calc(var(--overlap) * -1);
+  height: var(--waves-height);
+  width: calc(max(100%, var(--waves-width)) + calc(var(--overlap) * 2));
+  left: min(0px, calc(calc(100vw - var(--waves-width)) * 0.2));
+}
+
+h1 {
+  font-family: var(--font-family-title);
+  font-weight: var(--font-weight-title-bold);
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family-title);
+  font-weight: var(--font-weight-normal);
+}
+
+a:visited,
+a {
+  color: var(--color-white);
+  text-decoration-color: var(--color-faff-pink);
+}
+
+fieldset {
+  padding: 0;
+  border: 0;
+  margin: var(--gap-2) 0;
+}
+
+select,
+textarea,
+input:not([type='checkbox']):not([type='radio']) {
+  display: block;
+  width: 100%;
+  margin: var(--gap-1) 0;
+  padding: 4px var(--gap-1);
+  border-radius: 1px;
+  border: none;
+}
+
+select {
+  appearance: none;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  margin-right: var(--gap-1);
+}
+
+label {
+  display: block;
+}
+
+legend {
+  font-size: 110%;
+}
+
+.columns {
+  column-count: 2;
+}
+
+h1 {
+  margin: var(--gap-2) 0;
+}
+
+form {
+  margin: var(--gap-4) 0;
+}
+
+footer {
+  margin: var(--gap-4) 0;
+  text-align: center;
+  font-size: 80%;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lucy {
+  margin: 0;
+  max-width: 200px;
+  transition: transform 0.2s ease;
+}
+
+.lucy-container:hover .lucy {
+  content: url('https://gleam.run/images/lucy/lucyhappy.svg');
+  transform: rotate(23deg);
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class='hero'>
+      <div class='lucy-container'>
+        <img class='lucy' src='https://gleam.run/images/lucy/lucy.svg'>
+      </div>
+      <h1>Gleam Developer Survey 2024</h1>
+    </div>
+    <img class='waves' src='https://gleam.run/images/waves.svg'>
+  </header>
+  <main>
+
+<p>
+  Thank you! The results will be shared on <a
+  href='https://gleam.run/news/'>the Gleam website</a>.
+</p>
+
+  </main>
+  <footer>
+    This website is written in Gleam.
+    <a href='https://github.com/gleam-lang/developer-survey'>View the source
+    code</a>.
+  </footer>
+</body>
+</html>
