@@ -1,3 +1,4 @@
+import argv
 import decode/zero
 import gleam/dict
 import gleam/erlang/process
@@ -12,12 +13,20 @@ import gleam/string
 import gleam/string_tree
 import mist
 import storail
+import survey/analysis
 import tempo/datetime
 import wisp.{type Request, type Response}
 import wisp/wisp_mist
 import youid/uuid
 
 pub fn main() {
+  case argv.load().arguments {
+    ["analyse", path] -> analysis.analyse(path)
+    _ -> server()
+  }
+}
+
+fn server() {
   wisp.configure_logger()
   let secret_key_base = wisp.random_string(64)
 
