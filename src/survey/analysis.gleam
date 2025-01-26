@@ -34,6 +34,8 @@ pub fn analyse(path: String) -> Nil {
     |> list.map(normalise_os(_, "development-os"))
     |> list.map(normalise_os(_, "production-os"))
     |> list.map(normalise_news)
+    |> list.map(normalise_role)
+    |> list.map(normalise_other_languages)
     |> list.map(
       normalise_field(_, "gleam-experience", fn(x) {
         case x {
@@ -43,10 +45,11 @@ pub fn analyse(path: String) -> Nil {
       }),
     )
 
-  // "gleam-open-source", "gleam-user",
-  // "individual-sponsor", "inserted-at", "ip", "job-role", 
-  // "organisation-name", "organisation-size", "organisation-sponsor",
-  // "other-languages", "production-os", "professional-experience"
+  let assert Ok(_) =
+    simplifile.write(
+      summary,
+      "## Responses\n\n" <> int.to_string(list.length(data)) <> "\n\n",
+    )
 
   add_counts(data, "Gleam user", "gleam-user", yes)
   add_counts(data, "Gleam in production", "gleam-in-production", yes)
@@ -80,14 +83,306 @@ pub fn analyse(path: String) -> Nil {
   add_counts(data, "Project types", "projects", yes)
   add_counts(data, "Project types (Prod users)", "projects", in_prod)
 
+  add_counts(data, "Does Gleam OSS", "gleam-open-source", yes)
+  add_counts(data, "Does Gleam OSS (Prod user)", "gleam-open-source", in_prod)
+
+  add_counts(data, "Sponsor", "individual-sponsor", yes)
+  add_counts(data, "Sponsor (Prod user)", "individual-sponsor", in_prod)
+  add_counts(data, "Org sponsor", "organisation-sponsor", yes)
+  add_counts(data, "Org sponsor (Prod user)", "organisation-sponsor", in_prod)
+
+  add_counts(data, "Org size", "organisation-size", yes)
+  add_counts(data, "Org size (Prod user)", "organisation-size", in_prod)
+
+  add_counts(data, "Job", "job-role", yes)
+
+  add_counts(data, "Other languages", "other-languages", yes)
+  add_counts(data, "Other languages (Prod users)", "other-languages", in_prod)
+
   write_response_summaries(data)
 
   let assert Ok(summary) = simplifile.read(summary)
   io.print(summary)
 
-  get_all_for_field(data, "organisation-name") |> io.debug
+  // get_all_for_field(data, "job-role") |> io.debug
 
   Nil
+}
+
+fn normalise_other_languages(dict: Dict(String, String)) -> Dict(String, String) {
+  use language <- normalise_multi_field(dict, "other-languages")
+
+  case language {
+    "HTML"
+    | "Html"
+    | "html/css"
+    | "HCL"
+    | "German"
+    | "Gleam"
+    | "French"
+    | "English"
+    | "english"
+    | "CSS"
+    | "CAP CDS"
+    | "Lots"
+    | "SCSS"
+    | "Russian"
+    | "Swedish"
+    | "Yaml" -> []
+
+    "Abap" -> ["ABAP"]
+    "and Java" -> ["Java"]
+    "Assemblyscript" -> ["AssemblyScript"]
+    "bash" -> ["Bash"]
+    "c" -> ["C"]
+    "c#" -> ["C#"]
+    "c++" -> ["C++"]
+    "clojure" -> ["Clojure"]
+    "Common lisp" -> ["Common Lisp"]
+    "dart" -> ["Dart"]
+    "delphi" -> ["Delphi"]
+    "Eelang" -> ["Erlang"]
+    "Elixir Javascript Typescript Python Ruby" -> [
+      "Elixir", "Javascript", "Typescript", "Python", "Ruby",
+    ]
+    "elixir" -> ["Elixir"]
+    "elm" -> ["Elm"]
+    "erlang" -> ["Erlang"]
+    "f#" -> ["F#"]
+    "Go (unfortunately)" -> ["Go"]
+    "go php js" -> ["Go", "PHP", "JavaScript"]
+    "go" -> ["Go"]
+    "Golang" -> ["Go"]
+    "I also know the fundamentals of C and Elixir" -> ["C", "Elixir"]
+    "java" -> ["Java"]
+    "Javascript" | "Js" | "js" | "JS" | "javascript" -> ["JavaScript"]
+    "JS and PHP" -> ["JavaScript", "PHP"]
+    "JS/TS" | "js/ts" | "JavaScript/TypeScript" -> ["JavaScript", "TypeScript"]
+    "kotlin" -> ["Kotlin"]
+    "Lean 4" -> ["Lean"]
+    "Nu Shell" | "nushell" -> ["Nushell"]
+    "postgres" | "Sql" -> ["SQL"]
+    "Powershell" | "Poweshell" | "PowerShell" -> ["PowerShell"]
+    "prolog" -> ["Prolog"]
+    "python" -> ["Python"]
+    "rescript" -> ["ReScript"]
+    "Ruby (on occasion)" | "a bit of ruby" | "ruby" -> ["Ruby"]
+    "rust" -> ["Rust"]
+    "Shell" -> ["POSIX Shell"]
+    "SScala" -> ["Scala"]
+    "TS" | "ts" | "TypScript" | "Typscript" | "Typescript" | "typescript" -> [
+      "TypeScript",
+    ]
+    "V (go)" -> ["V"]
+    "zig" -> ["zig"]
+
+    language -> [language]
+  }
+}
+
+fn normalise_role(dict: Dict(String, String)) -> Dict(String, String) {
+  use role <- normalise_field(dict, "job-role")
+  case string.trim(role) |> string.replace(",", ";") {
+    "Design Engineer" | "Maker" -> "Hardware Developer"
+
+    "Engineering Manager" -> "Software Development Manager"
+
+    "TI technician"
+    | "Product Owner"
+    | "Technical Content Developer"
+    | "Service Desk Analyst"
+    | "Consultant"
+    | "Controller"
+    | "Translator"
+    | "Other" -> "Other"
+
+    "Administrator System"
+    | "Devops Engineer"
+    | "DevOps"
+    | "DevSecOps Engineer"
+    | "Site reliability engenier"
+    | "Senior Site Reliability Engineer"
+    | "SRE" -> "System administrator"
+
+    "Machine Learning Engineer" | "Machine learning engineer" ->
+      "Machine Learning Engineer"
+
+    "Data Scientist" -> "Data Scientist"
+
+    "Principal Engineer" | "Principal Software Engineer" ->
+      "Principal Software Developer"
+
+    "Founding Engineer"
+    | "VP Data & Analytics"
+    | "Head of Engineering " <> _
+    | "Head of Engineering"
+    | "Director of Engineering"
+    | "Head of IT operations (sysadmin/developer)"
+    | "Head of Software Devlopement"
+    | "Head of Software" -> "Head of Development"
+
+    "QA" -> "QA"
+
+    "President"
+    | "Director"
+    | "COO"
+    | "Managing Director"
+    | "Founder"
+    | "Start-up founder"
+    | "CEO"
+    | "ceo/engineering lead" -> "Other C-level executive"
+
+    "Staff Engineer" | "Staff Software Engineer" | "Staff software engineer" ->
+      "Staff Software Developer"
+
+    "Designer" | "UX Designer" | "Web designer" -> "Designer"
+
+    "Principal Architect"
+    | "Archtect and Software engineer"
+    | "Software Architec"
+    | "Software Architect"
+    | "Software architect"
+    | "Solution Architect"
+    | "Soware Architect"
+    | "Cloud Engineer/Architect" -> "Software Architect"
+
+    "Vice President; Engineering"
+    | "CTO"
+    | "cto"
+    | "CTO/Chief Architect"
+    | "I guess officially CTO" <> _ -> "CTO"
+
+    "Researcher" | "Scientist" -> "Researcher"
+
+    "Student"
+    | "Intern"
+    | "Postdoc"
+    | "High School Student"
+    | "IT-student"
+    | "PhD Student (Computational neuroscience)"
+    | "Software Development Student"
+    | "Student; " <> _
+    | "Student (KU Leuven)"
+    | "University student"
+    | "Student"
+    | "student" -> "Student"
+
+    "Junior Instructor"
+    | "Lecturer"
+    | "Assistant Professor"
+    | "Teacher"
+    | "Teaching Assistant" -> "Educator"
+
+    "Lead Backend Engineer"
+    | "Lead Developer; independent consultant"
+    | "R&D Lead"
+    | "Lead dev"
+    | "Lead Developer"
+    | "Lead Engineer"
+    | "Lead Fullstack Developer"
+    | "Lead software engineer"
+    | "Senior dev + team lead"
+    | "Web team lead"
+    | "Tech Lead"
+    | "Tech lead"
+    | "tech lead" -> "Tech Lead"
+
+    "code monkey"
+    | "Infrastructure engineer"
+    | "iOS developer"
+    | "R&D Engineer"
+    | "Security engineer"
+    | "Sr Software Engineer"
+    | "Sr. Software Engineer (Backend)"
+    | "tools developer"
+    | "SEO Programmer"
+    | "Senior Data Engeneer"
+    | "Data engineer"
+    | "Intermediate Software Developer"
+    | "Junior Software Engineer"
+    | "Open Source Engineer"
+    | "Platform Engineer"
+    | "Senior Developer"
+    | "Senior Engineer"
+    | "Senior Software Engineer"
+    | "senior software engineer"
+    | "Senior Staff Software Engineer"
+    | "Senior SWE"
+    | "Computer Programmer"
+    | "Consulting Engineer"
+    | "Contractor"
+    | "Contractor/Senior Developer"
+    | "freelance"
+    | "Software Engineer " <> _
+    | "Software Engineer"
+    | "Freelancer"
+    | "System Engineer"
+    | "Systems Software Engineer"
+    | "Developer / Community specialist"
+    | "Devoloper and System Administrator"
+    | "Developer FullStack"
+    | "Developer Relations"
+    | "Developer"
+    | "developer"
+    | "Development"
+    | "Developper; not lead but kinda lead in my projects."
+    | "Front-end developer"
+    | "Frontend  Engineer"
+    | "Frontend Developer"
+    | "Frontend engineer"
+    | "Frontend Engineer"
+    | "full stack dev"
+    | "Full stack developer"
+    | "Full Stack Software Developer"
+    | "Full Stack Web Developer"
+    | "Full-Stack developer"
+    | "Full-stack Software Developer"
+    | "Full-stack"
+    | "Fullstack developer"
+    | "Fullstack Developer"
+    | "fullstack developer"
+    | "Fullstack Engineer"
+    | "fullstack engineer"
+    | "Fullstack Software Developer"
+    | "Fullstack web dev"
+    | "Fullstack Web developer"
+    | "Fullstack"
+    | "Web Developer"
+    | "Web Devevloper"
+    | "web dev"
+    | "Software Developer"
+    | "Software developer"
+    | "Software Engineer"
+    | "Software engineer"
+    | "software engineer"
+    | "Software Engineer; UX/UI Designer"
+    | "Software Engineering Consultant"
+    | "Web Backend Developer"
+    | "Back-end Developer"
+    | "Backend Dev"
+    | "Backend developer"
+    | "Backend Developer"
+    | "backend developer"
+    | "Backend Engineer"
+    | "Backend engineer"
+    | "SWE" -> "Software Developer"
+
+    "Programming for fun for moment"
+    | "Unemployed" <> _
+    | "unemployed" <> _
+    | "jobless"
+    | "retired software architect"
+    | "Retired"
+    | // Self employed what?
+      "Self Employed"
+    | "N.A."
+    | "N/A"
+    | "None;" <> _
+    | "retired"
+    | "none" -> ""
+
+    role -> role
+  }
 }
 
 fn yes(_: c) -> Bool {
@@ -147,15 +442,16 @@ fn markdown_list(data: List(String)) -> String {
 }
 
 fn normalise_field(
-  response: Dict(a, b),
-  field_name: a,
-  normaliser: fn(b) -> b,
-) -> Dict(a, b) {
+  response: Dict(String, String),
+  field_name: String,
+  normaliser: fn(String) -> String,
+) -> Dict(String, String) {
   case dict.get(response, field_name) {
     Ok(answer) -> {
-      answer
-      |> normaliser
-      |> dict.insert(response, field_name, _)
+      case normaliser(answer) {
+        "" -> dict.delete(response, field_name)
+        answer -> dict.insert(response, field_name, answer)
+      }
     }
     Error(_) -> response
   }
