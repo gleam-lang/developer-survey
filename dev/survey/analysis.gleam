@@ -264,7 +264,6 @@ fn normalise_role(dict: Dict(String, String)) -> Dict(String, String) {
     | "Student; " <> _
     | "Student (KU Leuven)"
     | "University student"
-    | "Student"
     | "student" -> "Student"
 
     "Junior Instructor"
@@ -352,7 +351,6 @@ fn normalise_role(dict: Dict(String, String)) -> Dict(String, String) {
     | "web dev"
     | "Software Developer"
     | "Software developer"
-    | "Software Engineer"
     | "Software engineer"
     | "software engineer"
     | "Software Engineer; UX/UI Designer"
@@ -676,16 +674,16 @@ fn normalise_country(response: Dict(String, String)) -> Dict(String, String) {
   }
 }
 
-fn get_all_for_field(responses, field_name) {
-  list.fold(responses, set.new(), fn(values, response) {
-    case dict.get(response, field_name) {
-      Ok(value) -> value |> string.split(",") |> list.fold(values, set.insert)
-      _ -> values
-    }
-  })
-  |> set.to_list
-  |> list.sort(string.compare)
-}
+// fn get_all_for_field(responses, field_name) {
+//   list.fold(responses, set.new(), fn(values, response) {
+//     case dict.get(response, field_name) {
+//       Ok(value) -> value |> string.split(",") |> list.fold(values, set.insert)
+//       _ -> values
+//     }
+//   })
+//   |> set.to_list
+//   |> list.sort(string.compare)
+// }
 
 fn write_response_summaries(responses: List(Dict(String, String))) -> Nil {
   list.each(responses, fn(data) {

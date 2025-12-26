@@ -1,5 +1,5 @@
-import decode/zero
 import gleam/dict
+import gleam/dynamic/decode
 import gleam/erlang/process
 import gleam/http.{Get, Post}
 import gleam/http/request
@@ -9,10 +9,10 @@ import gleam/pair
 import gleam/result
 import gleam/set
 import gleam/string
-import gleam/string_tree
+import gleam/time/calendar
+import gleam/time/timestamp
 import mist
 import storail
-import tempo/datetime
 import wisp.{type Request, type Response}
 import wisp/wisp_mist
 import youid/uuid
@@ -26,7 +26,7 @@ pub fn main() {
     |> mist.new
     |> mist.port(3000)
     |> mist.bind("0.0.0.0")
-    |> mist.start_http
+    |> mist.start
 
   process.sleep_forever()
 }
@@ -51,7 +51,7 @@ pub fn show_form(req: Request) -> Response {
   }
 
   wisp.ok()
-  |> wisp.html_body(string_tree.from_string(html))
+  |> wisp.html_body(html)
 }
 
 pub fn handle_form_submission(req: Request) -> Response {
@@ -69,31 +69,35 @@ pub fn handle_form_submission(req: Request) -> Response {
       #(pair.0, list.map(pair.1, pair.second) |> string.join(","))
     })
 
+  let inserted_at =
+    timestamp.system_time()
+    |> timestamp.to_rfc3339(calendar.utc_offset)
+
   let assert Ok(_) =
     data_collection()
     |> storail.key(id)
     |> storail.write([
       #("id", id),
       #("ip", request.get_header(req, "x-forwarded-for") |> result.unwrap("")),
-      #("inserted-at", datetime.now_utc() |> datetime.to_string),
+      #("inserted-at", inserted_at),
       ..answers
     ])
 
   wisp.ok()
   |> wisp.set_cookie(req, cookie_name, ":)", wisp.PlainText, 60 * 60 * 24 * 90)
-  |> wisp.html_body(string_tree.from_string(html_thanks))
+  |> wisp.html_body(html_thanks)
 }
 
 fn data_collection() {
-  let config =
-    storail.Config(data_directory: "data", temporary_directory: "data/tmp")
+  let config = storail.Config(storage_path: "data")
   storail.Collection(
     name: "submission",
     config:,
     to_json: fn(data) {
       list.map(data, pair.map_second(_, json.string)) |> json.object
     },
-    decoder: zero.dict(zero.string, zero.string) |> zero.map(dict.to_list),
+    decoder: decode.dict(decode.string, decode.string)
+      |> decode.map(dict.to_list),
   )
 }
 
