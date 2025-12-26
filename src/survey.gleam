@@ -1,4 +1,3 @@
-import argv
 import decode/zero
 import gleam/dict
 import gleam/erlang/process
@@ -13,20 +12,12 @@ import gleam/string
 import gleam/string_tree
 import mist
 import storail
-import survey/analysis
 import tempo/datetime
 import wisp.{type Request, type Response}
 import wisp/wisp_mist
 import youid/uuid
 
 pub fn main() {
-  case argv.load().arguments {
-    ["analyse", path] -> analysis.analyse(path)
-    _ -> server()
-  }
-}
-
-fn server() {
   wisp.configure_logger()
   let secret_key_base = wisp.random_string(64)
 
@@ -83,7 +74,7 @@ pub fn handle_form_submission(req: Request) -> Response {
     |> storail.key(id)
     |> storail.write([
       #("id", id),
-      #("ip", request.get_header(req, "cf-connecting-ip") |> result.unwrap("")),
+      #("ip", request.get_header(req, "x-forwarded-for") |> result.unwrap("")),
       #("inserted-at", datetime.now_utc() |> datetime.to_string),
       ..answers
     ])
@@ -111,8 +102,9 @@ const question_names = [
   "gleam-user", "gleam-experience", "gleam-open-source", "targets",
   "writing-libraries", "writing-applications", "runtimes", "gleam-in-production",
   "organisation-name", "professional-experience", "other-languages",
-  "news-sources", "country", "likes", "improvements", "job-role",
-  "organisation-size", "production-os", "development-os", "anything-else",
+  "other-contribution", "news-sources", "country", "likes", "improvements",
+  "job-role", "email", "organisation-size", "production-os", "development-os",
+  "anything-else", "learn-about-gleam",
 ]
 
 const html_head = "
@@ -122,7 +114,7 @@ const html_head = "
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width'>
   <link rel='shortcut icon' href='https://gleam.run/images/lucy/lucy.svg'>
-  <title>Gleam Developer Survey 2024</title>
+  <title>Gleam Developer Survey 2025</title>
   <style>"
   <> css
   <> "</style>
@@ -133,7 +125,7 @@ const html_head = "
       <div class='lucy-container'>
         <img class='lucy' src='https://gleam.run/images/lucy/lucy.svg'>
       </div>
-      <h1>Gleam Developer Survey 2024</h1>
+      <h1>Gleam Developer Survey 2025</h1>
     </div>
     <img class='waves' src='https://gleam.run/images/waves.svg'>
   </header>
@@ -296,6 +288,11 @@ const html_form = html_head
   </section>
 
   <fieldset>
+    <legend>How did you first learn about Gleam?</legend>
+    <input type='text' name='learn-about-gleam'>
+  </fieldset>
+
+  <fieldset>
     <legend>Where do you get your Gleam news?</legend>
     <input type='text' list='news-sources' name='news-sources'>
     <button type='button' data-add-another-input>Add another</button>
@@ -330,13 +327,19 @@ const html_form = html_head
   </fieldset>
 
   <fieldset>
+    <legend>Do you contribute to Gleam in any other way?</legend>
+    <input type='text' name='other-contribution'>
+    <button type='button' data-add-another-input>Add another</button>
+  </fieldset>
+
+  <fieldset>
     <legend>What do you like about Gleam?</legend>
     <input type='text' name='likes'>
     <button type='button' data-add-another-input>Add another</button>
   </fieldset>
 
   <fieldset>
-    <legend>What would you like see the Gleam team work on in 2025?</legend>
+    <legend>What would you like see the Gleam team work on in 2026?</legend>
     <input type='text' name='improvements'>
     <button type='button' data-add-another-input>Add another</button>
   </fieldset>
@@ -344,6 +347,11 @@ const html_form = html_head
   <fieldset>
     <legend>Anything else you'd like to say?</legend>
     <textarea name='anything-else'></textarea>
+  </fieldset>
+
+  <fieldset>
+    <legend>Can we get in touch with you about any of your responses? If so, what's your email?</legend>
+    <input type='email' name='email'>
   </fieldset>
 
   <input type='submit' value='Submit'>

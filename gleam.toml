@@ -23,7 +23,6 @@ gtempo = ">= 5.0.2 and < 6.0.0"
 youid = ">= 1.2.0 and < 2.0.0"
 decode = ">= 0.4.1 and < 1.0.0"
 gleam_json = ">= 2.2.0 and < 3.0.0"
-argv = ">= 1.0.2 and < 2.0.0"
 simplifile = ">= 2.2.0 and < 3.0.0"
 filepath = ">= 1.1.0 and < 2.0.0"
 
