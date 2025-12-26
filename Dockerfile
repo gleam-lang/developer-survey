@@ -1,13 +1,26 @@
-FROM erlang:27.1.1.0-alpine AS build
-COPY --from=ghcr.io/gleam-lang/gleam:v1.7.0-erlang-alpine /bin/gleam /bin/gleam
+ARG ERLANG_VERSION=28.0.2.0
+ARG GLEAM_VERSION=v1.14.0
+
+# Gleam stage
+FROM ghcr.io/gleam-lang/gleam:${GLEAM_VERSION}-scratch AS gleam
+
+# Build stage
+FROM erlang:${ERLANG_VERSION}-alpine AS build
+COPY --from=gleam /bin/gleam /bin/gleam
 COPY . /app/
 RUN cd /app && gleam export erlang-shipment
 
-FROM erlang:27.1.1.0-alpine
+# Final stage
+FROM erlang:${ERLANG_VERSION}-alpine
+ARG GIT_SHA
+ARG BUILD_TIME
+ENV GIT_SHA=${GIT_SHA}
+ENV BUILD_TIME=${BUILD_TIME}
 RUN \
-  addgroup --system gleam_developer_survey && \
-  adduser --system gleam_developer_survey -g gleam_developer_survey   
+  addgroup --system gleam_packages && \
+  adduser --system gleam_packages -g gleam_packages
 COPY --from=build /app/build/erlang-shipment /app
+COPY healthcheck.sh /app/healthcheck.sh
 VOLUME /app/data
 LABEL org.opencontainers.image.source=https://github.com/gleam-lang/developer-survey
 LABEL org.opencontainers.image.description="Gleam Developer Survey web application"

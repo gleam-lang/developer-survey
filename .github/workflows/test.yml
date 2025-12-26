@@ -1,23 +1,57 @@
-name: test
+name: Test and build
 
 on:
   push:
     branches:
-      - master
       - main
   pull_request:
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: "27.0"
-          gleam-version: "1.7.0"
+          # Be sure to change in the dockerfile also
+          otp-version: "28.0.2.0"
+          gleam-version: "1.14.0"
           rebar3-version: "3"
-          # elixir-version: "1.15.4"
-      - run: gleam deps download
       - run: gleam test
       - run: gleam format --check src test
+
+  build-container:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build image
+        run: |
+          docker build . \
+            --file Dockerfile \
+            --tag app \
+            --build-arg GIT_SHA=${{ github.sha }} \
+            --build-arg BUILD_TIME=$(date +%s)
+
+      - name: Push image
+        run: |
+          TAG=ghcr.io/gleam-lang/developer-survey:main
+
+          docker tag app $TAG
+          docker push $TAG
+
+      - uses: actions/delete-package-versions@v5
+        with: 
+          package-name: 'developer-survey'
+          package-type: 'container'
+          min-versions-to-keep: 10
+          delete-only-untagged-versions: 'true'
