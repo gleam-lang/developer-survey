@@ -65,21 +65,23 @@ pub fn handle_form_submission(req: Request) -> Response {
     |> list.filter(fn(pair) { pair.1 != "" })
     |> list.group(fn(pair) { pair.0 })
     |> dict.to_list
-    |> list.map(fn(pair) {
-      #(pair.0, list.map(pair.1, pair.second) |> string.join(","))
-    })
+    |> list.map(fn(pair) { #(pair.0, list.map(pair.1, pair.second)) })
 
   let inserted_at =
     timestamp.system_time()
     |> timestamp.to_rfc3339(calendar.utc_offset)
 
+  let ip =
+    request.get_header(req, "x-forwarded-for")
+    |> result.map(list.wrap)
+    |> result.unwrap([])
   let assert Ok(_) =
     data_collection()
     |> storail.key(id)
     |> storail.write([
-      #("id", id),
-      #("ip", request.get_header(req, "x-forwarded-for") |> result.unwrap("")),
-      #("inserted-at", inserted_at),
+      #("id", [id]),
+      #("ip", ip),
+      #("inserted-at", [inserted_at]),
       ..answers
     ])
 
@@ -94,9 +96,10 @@ fn data_collection() {
     name: "submission",
     config:,
     to_json: fn(data) {
-      list.map(data, pair.map_second(_, json.string)) |> json.object
+      list.map(data, pair.map_second(_, json.array(_, json.string)))
+      |> json.object
     },
-    decoder: decode.dict(decode.string, decode.string)
+    decoder: decode.dict(decode.string, decode.list(decode.string))
       |> decode.map(dict.to_list),
   )
 }
