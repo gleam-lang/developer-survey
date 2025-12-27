@@ -8,7 +8,6 @@ import gleam/list
 import gleam/pair
 import gleam/result
 import gleam/set
-import gleam/string
 import gleam/time/calendar
 import gleam/time/timestamp
 import mist
@@ -122,6 +121,12 @@ const html_head = "
   <meta name='viewport' content='width=device-width'>
   <link rel='shortcut icon' href='https://gleam.run/images/lucy/lucy.svg'>
   <title>Gleam Developer Survey 2025</title>
+  <meta property='og:title' content=Gleam Developer Survey 2025>
+  <meta property='og:site_name' content=>
+  <meta property='og:url' content=https://developer-survey.gleam.run/>
+  <meta property='og:description' content=Help us learn about the our community in 2025!>
+  <meta property='og:type' content=website>
+  <meta property='og:image' content=https://gleam.run/images/preview/developer-survey-2025.png>
   <style>"
   <> css
   <> "</style>
