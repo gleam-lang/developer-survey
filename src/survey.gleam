@@ -175,62 +175,6 @@ const html_form = html_head
   </fieldset>
 
   <fieldset>
-    <legend>How large is your organisation?</legend>
-    <select name='organisation-size'>
-      <option value=''></option>
-      <option value='No organisation'>Not part of any organisation</option>
-      <option value='1 to 10'>1 to 10 people</option>
-      <option value='11 to 50'>11 to 50 people</option>
-      <option value='51 to 100'>51 to 100 people</option>
-      <option value='101 to 500'>101 to 500 people</option>
-      <option value='501 to 2000'>501 to 2000 people</option>
-      <option value='More than 2001'>More than 2001 people</option>
-    </select>
-  </fieldset>
-
-  <fieldset>
-    <legend>What other languages do you use?</legend>
-    <input type='text' list='languages' name='other-languages'>
-    <button type='button' data-add-another-input>Add another</button>
-  </fieldset>
-
-  <fieldset>
-    <legend>What operating systems do you use in development?</legend>
-    <div class='columns'>
-      <label><input type='checkbox' name='development-os' value='Android'>Android</label>
-      <label><input type='checkbox' name='development-os' value='FreeBSD'>FreeBSD</label>
-      <label><input type='checkbox' name='development-os' value='Linux'>Linux</label>
-      <label><input type='checkbox' name='development-os' value='OpenBSD'>OpenBSD</label>
-      <label><input type='checkbox' name='development-os' value='Windows'>Windows</label>
-      <label><input type='checkbox' name='development-os' value='iOS'>iOS</label>
-      <label><input type='checkbox' name='development-os' value='macOS'>macOS</label>
-      <label><input type='checkbox' data-other-option='development-os'>Other</label>
-    </div>
-    <div data-show-if='[data-other-option=development-os]:checked'>
-      <input type='text' name='development-os'>
-      <button type='button' data-add-another-input>Add another</button>
-    </div>
-  </fieldset>
-
-  <fieldset>
-    <legend>What operating systems do you use in production?</legend>
-    <div class='columns'>
-      <label><input type='checkbox' name='production-os' value='Android'>Android</label>
-      <label><input type='checkbox' name='production-os' value='FreeBSD'>FreeBSD</label>
-      <label><input type='checkbox' name='production-os' value='Linux'>Linux</label>
-      <label><input type='checkbox' name='production-os' value='OpenBSD'>OpenBSD</label>
-      <label><input type='checkbox' name='production-os' value='Windows'>Windows</label>
-      <label><input type='checkbox' name='production-os' value='iOS'>iOS</label>
-      <label><input type='checkbox' name='production-os' value='macOS'>macOS</label>
-      <label><input type='checkbox' data-other-option='production-os'>Other</label>
-    </div>
-    <div data-show-if='[data-other-option=production-os]:checked'>
-      <input type='text' name='production-os'>
-      <button type='button' data-add-another-input>Add another</button>
-    </div>
-  </fieldset>
-
-  <fieldset>
     <legend>Have you ever written Gleam code?</legend>
     <label><input type='radio' name='gleam-user' value='true'>Yes</label>
     <label><input type='radio' name='gleam-user' value='false'>No</label>
@@ -292,6 +236,62 @@ const html_form = html_head
   </section>
 
   <fieldset>
+    <legend>How large is your organisation?</legend>
+    <select name='organisation-size'>
+      <option value=''></option>
+      <option value='No organisation'>Not part of any organisation</option>
+      <option value='1 to 10'>1 to 10 people</option>
+      <option value='11 to 50'>11 to 50 people</option>
+      <option value='51 to 100'>51 to 100 people</option>
+      <option value='101 to 500'>101 to 500 people</option>
+      <option value='501 to 2000'>501 to 2000 people</option>
+      <option value='More than 2001'>More than 2001 people</option>
+    </select>
+  </fieldset>
+
+  <fieldset>
+    <legend>What other languages do you use?</legend>
+    <input type='text' list='languages' name='other-languages'>
+    <button type='button' data-add-another-input>Add another</button>
+  </fieldset>
+
+  <fieldset>
+    <legend>What operating systems do you use in development?</legend>
+    <div class='columns'>
+      <label><input type='checkbox' name='development-os' value='Android'>Android</label>
+      <label><input type='checkbox' name='development-os' value='FreeBSD'>FreeBSD</label>
+      <label><input type='checkbox' name='development-os' value='Linux'>Linux</label>
+      <label><input type='checkbox' name='development-os' value='OpenBSD'>OpenBSD</label>
+      <label><input type='checkbox' name='development-os' value='Windows'>Windows</label>
+      <label><input type='checkbox' name='development-os' value='iOS'>iOS</label>
+      <label><input type='checkbox' name='development-os' value='macOS'>macOS</label>
+      <label><input type='checkbox' data-other-option='development-os'>Other</label>
+    </div>
+    <div data-show-if='[data-other-option=development-os]:checked'>
+      <input type='text' name='development-os'>
+      <button type='button' data-add-another-input>Add another</button>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>What operating systems do you use in production?</legend>
+    <div class='columns'>
+      <label><input type='checkbox' name='production-os' value='Android'>Android</label>
+      <label><input type='checkbox' name='production-os' value='FreeBSD'>FreeBSD</label>
+      <label><input type='checkbox' name='production-os' value='Linux'>Linux</label>
+      <label><input type='checkbox' name='production-os' value='OpenBSD'>OpenBSD</label>
+      <label><input type='checkbox' name='production-os' value='Windows'>Windows</label>
+      <label><input type='checkbox' name='production-os' value='iOS'>iOS</label>
+      <label><input type='checkbox' name='production-os' value='macOS'>macOS</label>
+      <label><input type='checkbox' data-other-option='production-os'>Other</label>
+    </div>
+    <div data-show-if='[data-other-option=production-os]:checked'>
+      <input type='text' name='production-os'>
+      <button type='button' data-add-another-input>Add another</button>
+    </div>
+  </fieldset>
+
+  <fieldset>
     <legend>How did you first learn about Gleam?</legend>
     <input type='text' name='learn-about-gleam'>
   </fieldset>
@@ -307,9 +307,10 @@ const html_form = html_head
     <label><input type='radio' name='individual-sponsor' value='true'>Yes</label>
     <label><input type='radio' name='individual-sponsor' value='false'>No</label>
     <p>
-      Gleam has no corporate owner or other funding source. I rely on the the
-      kind support of Gleam's sponsors to pay my bills and to support language
-      development.
+      Gleam is a truly open-source community project and, unlike most programming 
+      languages, it does not come from any particular tech corporation or academic 
+      institution. That means we depend entirely on sponsoring, from both
+      individuals and companies.
     </p>
     <p data-show-if='[name=individual-sponsor][value=true]:checked'>
       Thank you so much! 💜
