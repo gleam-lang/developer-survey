@@ -16,13 +16,13 @@ ARG GIT_SHA
 ARG BUILD_TIME
 ENV GIT_SHA=${GIT_SHA}
 ENV BUILD_TIME=${BUILD_TIME}
+COPY healthcheck.sh /app/healthcheck.sh
 RUN \
   chmod +x /app/healthcheck.sh \
   && addgroup --system gleam_developer_survey \
   && adduser --system gleam_developer_survey -g gleam_developer_survey
 USER gleam_developer_survey
 COPY --from=build /app/build/erlang-shipment /app
-COPY healthcheck.sh /app/healthcheck.sh
 VOLUME /app/data
 LABEL org.opencontainers.image.source=https://github.com/gleam-lang/developer-survey
 LABEL org.opencontainers.image.description="Gleam Developer Survey web application"
