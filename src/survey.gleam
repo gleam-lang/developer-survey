@@ -122,16 +122,16 @@ const html_head = "
   <link rel='shortcut icon' href='https://gleam.run/images/lucy/lucy.svg'>
   <title>Gleam Developer Survey 2025</title>
   <meta name='title' content='Gleam Developer Survey 2025'>
-  <meta name='description' content='Help us learn about the our community in 2025!'>
+  <meta name='description' content='Help us learn about our community in 2025!'>
   <meta property='og:type' content='website'>
   <meta property='og:url' content='https://developer-survey.gleam.run/'>
   <meta property='og:title' content='Gleam Developer Survey 2025'>
-  <meta property='og:description' content='Help us learn about the our community in 2025!'>
+  <meta property='og:description' content='Help us learn about our community in 2025!'>
   <meta property='og:image' content='https://gleam.run/images/preview/developer-survey-2025.png'>
   <meta property='twitter:card' content='summary_large_image'>
   <meta property='twitter:url' content='https://developer-survey.gleam.run/'>
   <meta property='twitter:title' content='Gleam Developer Survey 2025'>
-  <meta property='twitter:description' content='Help us learn about the our community in 2025!'>
+  <meta property='twitter:description' content='Help us learn about our community in 2025!'>
   <meta property='twitter:image' content='https://gleam.run/images/preview/developer-survey-2025.png'>
   <style>"
   <> css
