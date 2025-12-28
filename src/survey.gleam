@@ -323,7 +323,8 @@ const html_form = html_head
     <p>
       Gleam is a truly open-source community project and, unlike most programming 
       languages, it does not come from any particular tech corporation or academic 
-      institution. That means we depend entirely on sponsoring, from both
+      institution. That means we depend entirely on 
+      <a href='https://gleam.run/sponsor/'>sponsorship</a>, from both
       individuals and companies.
     </p>
     <p data-show-if='[name=individual-sponsor][value=true]:checked'>
