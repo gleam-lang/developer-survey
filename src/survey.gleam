@@ -320,7 +320,7 @@ const html_form = html_head
     <legend>Do you sponsor Gleam?</legend>
     <label><input type='radio' name='individual-sponsor' value='true'>Yes</label>
     <label><input type='radio' name='individual-sponsor' value='false'>No</label>
-    <p>
+    <p class='sponsorship-callout'>
       Gleam is a truly open-source community project and, unlike most programming 
       languages, it does not come from any particular tech corporation or academic 
       institution. That means we depend entirely on 
@@ -374,7 +374,7 @@ const html_form = html_head
     <input type='email' name='email'>
   </fieldset>
 
-  <input type='submit' value='Submit'>
+  <button type='submit'>Submit</button>
 </form>
 
 <script type='module'>
@@ -805,7 +805,10 @@ const css = "
   --font-family-normal: 'Outfit', sans-serif;
   --font-family-title: 'Lexend', sans-serif;
   --color-underwater-blue: #292d3e;
+  --color-lukewarm-charcoal: #313546;
+  --color-warm-charcoal: #616682;
   --color-aged-plastic-yellow: #fffbe8;
+  --color-text-main: #F0EEFF;
   --color-white: #fefefc;
   --color-faff-pink: #ffaff3;
   --color-blacker: #151515;
@@ -862,6 +865,13 @@ p {
   text-wrap: pretty;
   margin: 8 0;
 }
+
+.sponsorship-callout {
+  margin-top: .6rem;
+  font-size: 1rem;
+  color: var(--color-text-main);
+}
+
 h1, h2, h3, h4, h5, h6 {
   text-wrap: balance;
 }
@@ -929,9 +939,18 @@ input:not([type='checkbox']):not([type='radio']) {
   display: block;
   width: 100%;
   margin: var(--gap-1) 0;
-  padding: 4px var(--gap-1);
-  border-radius: 1px;
-  border: none;
+  padding: 6px var(--gap-1);
+  border-radius: .3rem;
+  color: var(--color-white);
+  background: var(--color-lukewarm-charcoal);
+  border: 1px solid var(--color-warm-charcoal);
+}
+
+select:focus,
+textarea:focus,
+input:not([type='checkbox']):not([type='radio']):focus {
+  outline: none;
+  border-color: var(--color-faff-pink);
 }
 
 select {
@@ -941,6 +960,7 @@ select {
 input[type='checkbox'],
 input[type='radio'] {
   margin-right: var(--gap-1);
+  accent-color: var(--color-faff-pink);
 }
 
 label {
@@ -948,7 +968,35 @@ label {
 }
 
 legend {
-  font-size: 110%;
+  font-size: 1.1rem;
+  color: var(--color-text-main);
+}
+
+button[type='button'] {
+  border: 1px solid var(--color-warm-charcoal);
+  background: var(--color-lukewarm-charcoal);
+  border-radius: .2rem;
+  padding: 4px var(--gap-1);
+  color: var(--color-white);
+  transition: 120ms ease-in-out opacity;
+  opacity: 1;
+}
+
+button[type='button']:hover {
+  cursor: pointer;
+  opacity: .75;
+}
+
+button[type='submit'] {
+  border-radius: .3rem;
+  background-color: var(--color-faff-pink);
+  font-family: var(--font-family-title);
+  color: var(--color-blacker);
+  font-weight: var(--font-weight-title-bold);
+  padding: var(--gap-1);
+  text-align: center;
+  width: 100%;
+  border: none;
 }
 
 .columns {
