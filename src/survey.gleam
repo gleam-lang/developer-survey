@@ -769,7 +769,7 @@ const html_form = html_head
 const html_thanks = html_head
   <> "
 <p>
-  Thank you! The results will be shared before the end of the year on <a
+  Thank you! The results will be shared on <a
   href='https://gleam.run/news/'>the Gleam website</a>.
 </p>
 <p>
