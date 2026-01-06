@@ -37,7 +37,7 @@ wait_for_github_workflows() {
       return 0
     fi
 
-    echo "waiting for $running_count workflow(s) to finish…"
+    echo "Waiting for $running_count workflow(s) to finish…"
     sleep "$interval"
   done
 }
