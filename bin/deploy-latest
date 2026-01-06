@@ -3,7 +3,7 @@
 BOX=linuxuser@packages.gleam.run 
 
 main() {
-  echo "Checking no GitHub actions are running"
+  echo "Checking for running GitHub actions"
   wait_for_github_workflows gleam-lang developer-survey
 
   echo "Running podman-auto-update"
