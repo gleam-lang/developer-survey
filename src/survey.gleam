@@ -172,6 +172,11 @@ const html_form = html_head
   Do share this survey with your Gleamy friends!
 </p>
 
+<br>
+<p>
+  If you haven't written any Gleam yet we still want to hear from you 💖
+</p>
+
 <form method='post'>
   <fieldset>
     <legend>What country do you live in?</legend>
