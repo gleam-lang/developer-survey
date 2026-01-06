@@ -244,6 +244,10 @@ const html_form = html_head
 
     <fieldset>
       <legend>Do you use Gleam in production?</legend>
+      <p>
+        Any application of Gleam to perform a task counts as in-production. It
+        doesn't need to be at-scale, commercial, or profitable to count.
+      </p>
       <label><input type='radio' name='gleam-in-production' value='true'>Yes</label>
       <label><input type='radio' name='gleam-in-production' value='false'>No</label>
     </fieldset>
