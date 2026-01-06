@@ -133,6 +133,11 @@ const html_head = "
   <meta property='twitter:title' content='Gleam Developer Survey 2025'>
   <meta property='twitter:description' content='Help us learn about Gleam users and the community in 2025!'>
   <meta property='twitter:image' content='https://gleam.run/images/preview/developer-survey-2025.png'>
+  <script async src='https://plausible.io/js/pa-hIj-WCg5oartQJcRPEGFa.js'></script>
+  <script>
+    window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+    plausible.init()
+  </script>
   <style>"
   <> css
   <> "</style>
