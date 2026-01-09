@@ -169,6 +169,10 @@ const html_foot = "
 const html_form = html_head
   <> "
 <p>
+  2025 draws to a close, so it's a good time to survey the community and learn
+  how we are doing.
+</p>
+<p>
   All questions are optional, so fill in as much or as little as you like. If
   you have any question or problems please share them in
   <a href='https://discord.gg/Fm8Pwmy'>the Gleam Discord server</a>.
