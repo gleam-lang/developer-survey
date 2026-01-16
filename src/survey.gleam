@@ -398,10 +398,13 @@ const html_form = html_head
 <script type='module'>
   for (const element of document.querySelectorAll('[data-show-if]')) {
     const handle = () => {
+      const inputs = element.querySelectorAll('input, select, textarea');
       if (document.querySelector(element.dataset.showIf)) {
         element.style.display = 'block';
+        for (const input of inputs) input.disabled = false;
       } else {
         element.style.display = 'none';
+        for (const input of inputs) input.disabled = true;
       }
     };
     element.closest('form').addEventListener('change', handle)
