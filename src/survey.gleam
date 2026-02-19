@@ -75,7 +75,7 @@ pub fn handle_form_submission(req: Request) -> Response {
     |> result.map(list.wrap)
     |> result.unwrap([])
   let assert Ok(_) =
-    data_collection()
+    data_collection("data")
     |> storail.key(id)
     |> storail.write([
       #("id", [id]),
@@ -89,8 +89,8 @@ pub fn handle_form_submission(req: Request) -> Response {
   |> wisp.html_body(html_thanks)
 }
 
-fn data_collection() {
-  let config = storail.Config(storage_path: "data")
+pub fn data_collection(storage_path: String) {
+  let config = storail.Config(storage_path:)
   storail.Collection(
     name: "submission",
     config:,
@@ -743,14 +743,13 @@ const html_form = html_head
   <option value='Linkedin'></option>
   <option value='The Fediverse'></option>
   <option value='The Gleam Discord Server'></option>
-  <option value='Twitter @gleamlang'></option>
-  <option value='Twitter @louispilfold'></option>
   <option value='Twitter'></option>
+  <option value='X'></option>
   <option value='gleam.run'></option>
   <option value='lobste.rs'></option>
   <option value='reddit.com'></option>
-  <option value='reddit.com/r/elixir'></option>
-  <option value='reddit.com/r/gleamlang'></option>
+  <option value='Podcasts'></option>
+  <option value='Twitch'></option>
 </datalist>
 
 <datalist id='job-roles'>
